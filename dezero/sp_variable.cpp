@@ -11,7 +11,7 @@ namespace md {
 	int var_id = 1982;
 
 	std::ostream& operator<<(std::ostream& out, spvar& v) {
-		out << xt::print_options::precision(16) << v->get_data();
+		out << /*xt::print_options::precision(8) <<*/ v->get_data();
 		return out;
 	}
 

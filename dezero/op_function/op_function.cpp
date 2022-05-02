@@ -247,7 +247,6 @@ namespace md {
 			spvar& gy = gys[0]->get_grad();
 			spvar& x = inputs[0];
 			spvar& W = inputs[1];
-
 			spvar gx = gy.matmul(W.T());
 			spvar gW = x.T().matmul(gy);
 
@@ -772,9 +771,12 @@ namespace md {
 		}
 		else {
 			xarr_d& x = xs[0]->get_data();
-			xarr_d y = x - xt::amax(x, axis, xt::keep_dims);
+			xarr_d max = xt::amax(x, axis, xt::keep_dims);
+			xarr_d y = x - max;
 			xarr_d y_exp = xt::exp(y);
-			xarr_d res = y_exp / xt::sum(y_exp, axis, xt::keep_dims);
+			xarr_d y_exp_sum = xt::sum(y_exp, axis, xt::keep_dims);
+			xarr_d res = y_exp / y_exp_sum;
+			
 			return vec_spvar({ spvar::create(res) });
 		}
 	}

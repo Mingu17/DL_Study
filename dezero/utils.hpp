@@ -48,6 +48,7 @@ namespace md {
 		static xarr_d logsumexp(xarr_d& x, size_t axis);
 		static xarr_d logsumexp(xarr_d& x, const xarr_size& axis);
 
+		static void get_spiral(vec_xarr_d& out_data, bool train = true);
 	private:
 		
 	};

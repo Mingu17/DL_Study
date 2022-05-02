@@ -74,4 +74,42 @@ namespace md {
 		m += s_log;
 		return m;
 	}
+
+	void Utils::get_spiral(vec_xarr_d& out_data, bool train) {
+		int seed = train ? 1984 : 2020;
+		xt::random::seed(seed);
+
+		int num_data = 100;
+		int num_class = 3;
+		int input_dim = 2;
+		int data_size = num_class * num_data;
+		xarr_d x_t = xt::zeros<double>({ data_size, input_dim });
+		xarr_d x = xt::zeros<double>({ data_size, input_dim });
+		xt::xarray<int> t_t = xt::zeros<int>({ data_size });
+		xt::xarray<int> t = xt::zeros<int>({ data_size });
+
+		for (int j = 0; j < num_class; ++j) {
+			for (int i = 0; i < num_data; ++i) {
+				double rate = static_cast<double>(i) / num_data;
+				double radius = 1.0 * rate;
+				xarr_d r_t = xt::random::randn<double>({ 1, 1 });
+				double theta = 4.0 * j + rate * 4.0 + r_t(0) * 0.2;
+				int ix = num_data * j + i;
+				x_t(ix, 0) = radius * std::sin(theta);
+				x_t(ix, 1) = radius * std::cos(theta);
+				t_t(ix) = j;
+			}
+		}
+
+		xt::xarray<int> indices = xt::random::permutation(num_data * num_class);
+		for (int i = 0; i < indices.size(); ++i) {
+			int idx = indices(i);
+			x(i, 0) = x_t(idx, 0);
+			x(i, 1) = x_t(idx, 1);
+			t(i) = t_t(idx);
+		}
+
+		out_data.push_back(x);
+		out_data.push_back(t);
+	}
 }

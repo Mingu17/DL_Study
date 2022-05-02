@@ -406,15 +406,55 @@ int main(int argc, char** argv) {
 		//	}
 		//	clear_op();
 		//}
-		auto model = MLP({ 10, 3 });
-		auto x = spvar::create(xarr_d({ {0.2, -0.4},{0.3, 0.5},{1.3, -3.2},{2.1, 0.3} }));
-		auto t = spvar::create(xarr_d({ 2, 0, 1, 0 }));
-		auto& y = model.call(x);
-		auto loss = y[0].softmax_cross_entropy(t);
-		loss->backward();
-		cout << x.clip(0.1, 1.0) << endl;
-		cout << y[0] << endl;
-		cout << loss << endl;
+		//auto model = MLP({ 10, 3 });
+		//auto x = spvar::create(xarr_d({ {0.2, -0.4},{0.3, 0.5},{1.3, -3.2},{2.1, 0.3} }));
+		//auto t = spvar::create(xarr_d({ 2, 0, 1, 0 }));
+		//auto& y = model.call(x);
+		//auto loss = y[0].softmax_cross_entropy(t);
+		//loss->backward();
+		//cout << x.clip(0.1, 1.0) << endl;
+		//cout << y[0] << endl;
+		//cout << loss << endl;
+
+		int max_epoch = 300;
+		int batch_size = 30;
+		int hidden_size = 10;
+		double lr = 1.0;
+
+		vec_xarr_d train_data;
+		Utils::get_spiral(train_data, true);
+
+		//cout << train_data[0] << endl;
+		auto model = MLP({ hidden_size, 3 });
+		auto optimizer = SGD(lr);
+		optimizer.setup(&model);
+		size_t data_size = train_data[0].shape()[0];
+		int max_iter = std::ceil(static_cast<double>(data_size) / batch_size);
+
+		for (int epoch = 0; epoch < max_epoch; ++epoch) {
+			xt::xarray<int> index = xt::random::permutation(data_size);
+			double sum_loss = 0.0;
+
+			for (int i = 0; i < max_iter; ++i) {
+				xt::xarray<int> batch_index = xt::view(index, xt::range(i * batch_size, (i + 1) * batch_size));
+				xarr_d batch_x = xt::view(train_data[0], xt::keep(batch_index), xt::all());
+				xarr_d batch_t = xt::index_view(train_data[1], batch_index);
+				spvar t_x = spvar::create(batch_x);
+				spvar t_t = spvar::create(batch_t);
+
+				auto& y = model.call(t_x);
+				auto& loss = y[0].softmax_cross_entropy(t_t);
+				model.clear_grad();
+				loss->backward();
+				optimizer.update();
+				sum_loss += loss->get_data()(0) * batch_t.size();
+				clear_op();
+			}
+
+			double avg_loss = sum_loss / data_size;
+			cout << "epoch " << epoch + 1 << ", loss " << avg_loss << endl;
+		}
+
 		clear_op();
 
 		cout << "End" << endl;

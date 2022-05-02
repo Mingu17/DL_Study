@@ -28,6 +28,7 @@ namespace md {
 	//typedef xt::xarray<size_t> xarr_st;
 	typedef xt::svector<size_t> xarr_size;
 	typedef vector<spvar> vec_spvar;
+	typedef vector<xarr_d> vec_xarr_d;
 	typedef spvar parameter;
 	typedef unsigned long long ull;
 	typedef xt::xdynamic_slice_vector vec_xslice;
