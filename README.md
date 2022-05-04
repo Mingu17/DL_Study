@@ -3,4 +3,5 @@
 
 # Dependencies
  xtensor : https://github.com/xtensor-stack/xtensor
- 
+ xtl : https://github.com/xtensor-stack/xtl
+ OpenBLAS : https://github.com/xianyi/OpenBLAS
