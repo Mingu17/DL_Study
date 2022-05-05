@@ -7,3 +7,6 @@
  xtl : https://github.com/xtensor-stack/xtl
  
  OpenBLAS : https://github.com/xianyi/OpenBLAS
+ 
+# References
+ SRombauts/shared_ptr : https://github.com/SRombauts/shared_ptr
