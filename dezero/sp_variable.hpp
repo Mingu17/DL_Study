@@ -4,7 +4,6 @@
 #include "common.hpp"
 #include "local_exception.hpp"
 #include <string>
-//#include "variable.hpp"
 
 namespace md {
 	class Variable;
@@ -65,22 +64,10 @@ namespace md {
 		}
 
 		spvar(const spvar& _ptr) noexcept : cnt(_ptr.cnt), id(_ptr.id) {
-			//if (_ptr.ptr == nullptr || _ptr.cnt.use_count() == 0) {
-			//	throw LocalException("(spvar::spvar) - Source pointer is not correct");
-			//}
-			//else {
-			//	add(_ptr.ptr);
-			//}
 			add(_ptr.ptr);
 		}
 
 		spvar(spvar&& _ptr) noexcept : cnt(std::move(_ptr.cnt)), id(std::move(_ptr.id)) {
-			//if (_ptr.ptr == nullptr || _ptr.cnt.use_count() == 0) {
-			//	throw LocalException("(spvar::spvar) - Source pointer is not correct");
-			//}
-			//else {
-			//	add(std::move(_ptr.ptr));
-			//}
 			add(std::move(_ptr.ptr));
 		}
 
@@ -198,7 +185,7 @@ namespace md {
 			return (ptr > _ptr.get());
 		}
 
-		friend std::ostream& operator<<(std::ostream& out, spvar& v);
+		friend std::ostream& operator<<(std::ostream& out, const spvar& v);
 
 		spvar& operator+(const spvar& x);
 		spvar& operator+(const double& x);
@@ -218,36 +205,17 @@ namespace md {
 		spvar& operator/(const double& x);
 		friend spvar& operator/(const double& x0, const spvar& x1);
 
+		double operator[](int idx);
 
-		spvar& pow(const double c);
-		spvar& sin();
-		spvar& cos();
-		spvar& tanh();
-		spvar& exp();
-		spvar& reshape(xarr_size target_size);
+		spvar& reshape(const xarr_size& target_size);
 		spvar& transpose();
 		spvar& T();
 
-		spvar& broadcast_to(xarr_size& shape);
-		spvar& sum_to(xarr_size& shape);
-		spvar& sum(const xarr_size& axis = xarr_size(), bool keepdims = false);
-		spvar& dot(spvar& W);
-		spvar& matmul(spvar& x); //equal dot()
-		spvar& mean_squared_error(spvar& x0);
-		spvar& softmax(size_t axis = 1);
-		spvar& softmax(const xarr_size& axis);
-		spvar& softmax_cross_entropy(spvar& t);
-		spvar& relu();
-
-		spvar& linear(spvar& W, spvar& b);
-		spvar& linear(spvar& W, spvar&& b = spvar());
-		spvar& linear_simple(spvar& W, spvar&& b = spvar());
-
-		spvar& sigmoid_simple();
-		spvar& sigmoid();
+		spvar& dot(const spvar& W);
+		spvar& matmul(const spvar& x); //equal dot()
 
 		spvar& get_item(const vec_xslice& slices);
-		spvar& clip(double x_min, double x_max);
+		spvar& clip(const double x_min, const double x_max);
 
 		static spvar create(const double& in);
 		static spvar create(const xarr_d& in);
@@ -271,7 +239,6 @@ namespace md {
 	private:
 		Variable* ptr;
 		spvar_count cnt;
-		//std::string id;
 		ull id;
 	};
 }

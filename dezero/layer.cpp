@@ -16,7 +16,7 @@ namespace md {
 		inputs.push_back(v);
 	}
 
-	void Layer::param_add(parameter& param, string name) {
+	void Layer::param_add(const parameter& param, string name) {
 		if (name.empty()) {
 			int cnt = static_cast<int>(params.size()) - 1;
 			string num_str = Common::string_format("%07d", cnt);

@@ -1,30 +1,31 @@
-#include "add.hpp"
-#include "mul.hpp"
-#include "neg.hpp"
-#include "sub.hpp"
-#include "pow.hpp"
-#include "div.hpp"
-#include "sin.hpp"
-#include "cos.hpp"
-#include "tanh.hpp"
-#include "exp.hpp"
-#include "reshape.hpp"
-#include "transpose.hpp"
-#include "broadcast_to.hpp"
-#include "sum_to.hpp"
-#include "sum.hpp"
-#include "matmul.hpp"
-#include "mean_squared_error.hpp"
-#include "linear.hpp"
-#include "sigmoid.hpp"
+//#include "add.hpp"
+//#include "mul.hpp"
+//#include "neg.hpp"
+//#include "sub.hpp"
+//#include "pow.hpp"
+//#include "div.hpp"
+//#include "sin.hpp"
+//#include "cos.hpp"
+//#include "tanh.hpp"
+//#include "exp.hpp"
+//#include "reshape.hpp"
+//#include "transpose.hpp"
+//#include "broadcast_to.hpp"
+//#include "sum_to.hpp"
+//#include "sum.hpp"
+//#include "matmul.hpp"
+//#include "mean_squared_error.hpp"
+//#include "linear.hpp"
+//#include "sigmoid.hpp"
+//
+//#include "relu.hpp"
+//#include "get_item.hpp"
+//#include "get_item_grad.hpp"
+//#include "softmax.hpp"
+//#include "softmax_cross_entropy.hpp"
+//#include "clip.hpp"
 
-#include "relu.hpp"
-#include "get_item.hpp"
-#include "get_item_grad.hpp"
-#include "softmax.hpp"
-#include "softmax_cross_entropy.hpp"
-#include "clip.hpp"
-
+#include "../function_set.hpp"
 #include "../variable.hpp"
 #include "../sp_variable.hpp"
 
@@ -34,7 +35,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Add::forward(vec_spvar& xs) {
+	vec_spvar Add::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(Add::forward) - Size mismatch");
 		}
@@ -53,15 +54,15 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Add::backward(vec_spvar& gys) {
+	vec_spvar Add::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Add::backward) - Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
 			if (x0_shape != x1_shape) {
-				spvar gx0 = gy.sum_to(x0_shape);
-				spvar gx1 = gy.sum_to(x1_shape);
+				spvar gx0 = util_func::sum_to(gy, x0_shape);// gy.sum_to(x0_shape);
+				spvar gx1 = util_func::sum_to(gy, x1_shape);// gy.sum_to(x1_shape);
 				return vec_spvar({ gx0, gx1 });
 			}
 			else {
@@ -74,7 +75,8 @@ namespace md {
 	/// BroadcastTo class constructor (Function)
 	/// </summary>
 	/// <param name="_shape"> - input shape variable</param>
-	BroadcastTo::BroadcastTo(xarr_size& _shape) : shape(_shape) {
+	BroadcastTo::BroadcastTo(const xarr_size& _shape) 
+		: shape(_shape) {
 	
 	}
 
@@ -83,7 +85,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar BroadcastTo::forward(vec_spvar& xs) {
+	vec_spvar BroadcastTo::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(BroadcastTo::forward) - Size mismatch");
 		}
@@ -100,7 +102,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar BroadcastTo::backward(vec_spvar& gys) {
+	vec_spvar BroadcastTo::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(BroadcastTo::backward) - Size mismatch");
 		}
@@ -116,7 +118,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Cos::forward(vec_spvar& xs) {
+	vec_spvar Cos::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Cos::forward) - Size mismatch");
 		}
@@ -131,14 +133,14 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Cos::backward(vec_spvar& gys) {
+	vec_spvar Cos::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Cos::backward) - Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
 			spvar& x = inputs[0];
-			return vec_spvar({ gy * -x.sin() });// -sin(x)
+			return vec_spvar({ gy * -math::sin(x) });// -sin(x)
 		}
 	}
 
@@ -147,7 +149,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Div::forward(vec_spvar& xs) {
+	vec_spvar Div::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(Div::forward) - Size mismatch");
 		}
@@ -164,7 +166,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Div::backward(vec_spvar& gys) {
+	vec_spvar Div::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Div::backward) - Size mismatch");
 		}
@@ -173,7 +175,7 @@ namespace md {
 			spvar& x0 = inputs[0];
 			spvar& x1 = inputs[1];
 			return vec_spvar({
-				gy / x1, gy * (-x0 / x1.pow(2)) //pow(x1, 2))
+				gy / x1, gy * (-x0 / math::pow(x1, 2)) // x1.pow(2)) //pow(x1, 2))
 				});
 		}
 	}
@@ -183,7 +185,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Exp::forward(vec_spvar& xs) {
+	vec_spvar Exp::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Exp::forward) - Size mismatch");
 		}
@@ -199,7 +201,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Exp::backward(vec_spvar& gys) {
+	vec_spvar Exp::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Exp::backward) - Size mismatch");
 		}
@@ -215,7 +217,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Linear::forward(vec_spvar& xs) {
+	vec_spvar Linear::forward(const vec_spvar& xs) {
 		if (!(xs.size() == 2 || xs.size() == 3)) {
 			throw LocalException("(Linear::forward) - Size mismatch");
 		}
@@ -239,7 +241,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Linear::backward(vec_spvar& gys) {
+	vec_spvar Linear::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Linear::backward) - Size mismatch");
 		}
@@ -255,7 +257,7 @@ namespace md {
 			}
 			else {
 				spvar& b = inputs[2];
-				spvar gb = gy.sum_to(const_cast<xarr_size&>(b->get_shape()));
+				spvar gb = util_func::sum_to(gy, b->get_shape());// gy.sum_to(const_cast<xarr_size&>(b->get_shape()));
 				return vec_spvar({ gx, gW, gb });
 			}
 		}
@@ -266,7 +268,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar MatMul::forward(vec_spvar& xs) {
+	vec_spvar MatMul::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(MatMul::forward) - Size mismatch");
 		}
@@ -284,7 +286,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar MatMul::backward(vec_spvar& gys) {
+	vec_spvar MatMul::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(MatMul::backward) - Size mismatch");
 		}
@@ -305,7 +307,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar MeanSquaredError::forward(vec_spvar& xs) {
+	vec_spvar MeanSquaredError::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(MeanSquaredError::forward) - Size mismatch");
 		}
@@ -323,7 +325,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar MeanSquaredError::backward(vec_spvar& gys) {
+	vec_spvar MeanSquaredError::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(MeanSquaredError::backward) - Size mismatch");
 		}
@@ -343,7 +345,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Mul::forward(vec_spvar& xs) {
+	vec_spvar Mul::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(Mul::forward) - Size mismatch");
 		}
@@ -360,7 +362,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Mul::backward(vec_spvar& gys) {
+	vec_spvar Mul::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Mul::backward) - Size mismatch");
 		}
@@ -377,7 +379,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Neg::forward(vec_spvar& xs) {
+	vec_spvar Neg::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Neg::forward) - Size mismatch");
 		}
@@ -392,7 +394,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Neg::backward(vec_spvar& gys) {
+	vec_spvar Neg::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Neg::backward) - Size mismatch");
 		}
@@ -415,7 +417,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Pow::forward(vec_spvar& xs) {
+	vec_spvar Pow::forward(const vec_spvar& xs) {
 		//std::cout << "c : " << c << std::endl;
 		if (xs.size() != 1) {
 			throw LocalException("(Pow::forward) - Size mismatch");
@@ -431,14 +433,14 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Pow::backward(vec_spvar& gys) {
+	vec_spvar Pow::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Pow::backward) - Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
 			spvar& x = inputs[0];
-			return vec_spvar({ c * x.pow(c - 1) * gy });
+			return vec_spvar({ c * math::pow(x, c - 1) * gy });
 		}
 	}
 
@@ -446,7 +448,8 @@ namespace md {
 	/// Reshape class constructor (Function)
 	/// </summary>
 	/// <param name="s"> - target shape</param>
-	Reshape::Reshape(xarr_size& s) : shape(s) {
+	Reshape::Reshape(const xarr_size& s) 
+		: shape(s) {
 	
 	}
 
@@ -455,7 +458,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Reshape::forward(vec_spvar& xs) {
+	vec_spvar Reshape::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Reshape::forward) - Size mismatch");
 		}
@@ -472,7 +475,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Reshape::backward(vec_spvar& gys) {
+	vec_spvar Reshape::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Reshape::backward) - Size mismatch");
 		}
@@ -488,7 +491,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Sigmoid::forward(vec_spvar& xs) {
+	vec_spvar Sigmoid::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Sigmoid::forward) - Size mismatch");
 		}
@@ -504,7 +507,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Sigmoid::backward(vec_spvar& gys) {
+	vec_spvar Sigmoid::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Sigmoid::backward) - Size mismatch");
 		}
@@ -520,7 +523,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Sin::forward(vec_spvar& xs) {
+	vec_spvar Sin::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Sin::forward) - Size mismatch");
 		}
@@ -535,14 +538,14 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Sin::backward(vec_spvar& gys) {
+	vec_spvar Sin::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Sin::backward) - Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
 			spvar& x = inputs[0];
-			return vec_spvar({ gy * x.cos() }); //cos(x) });
+			return vec_spvar({ gy * math::cos(x) }); //cos(x) });
 		}
 	}
 
@@ -551,7 +554,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Sub::forward(vec_spvar& xs) {
+	vec_spvar Sub::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(Sub::forward) - Size mismatch");
 		}
@@ -568,7 +571,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Sub::backward(vec_spvar& gys) {
+	vec_spvar Sub::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Sub::backward) - Size mismatch");
 		}
@@ -583,7 +586,8 @@ namespace md {
 	/// </summary>
 	/// <param name="_axis"> - standard axis</param>
 	/// <param name="_keepdims"> - keep dimensions</param>
-	Sum::Sum(const xarr_size& _axis, bool _keepdims) : axis(_axis), keepdims(_keepdims) {
+	Sum::Sum(const xarr_size& _axis, bool _keepdims) 
+		: axis(_axis), keepdims(_keepdims) {
 	
 	}
 
@@ -592,7 +596,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Sum::forward(vec_spvar& xs) {
+	vec_spvar Sum::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Sum::forward) - Size mismatch");
 		}
@@ -614,7 +618,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Sum::backward(vec_spvar& gys) {
+	vec_spvar Sum::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Sum::backward) - Size mismatch");
 		}
@@ -622,7 +626,7 @@ namespace md {
 			spvar& gy = gys[0]->get_grad();
 			spvar& gy_reshape = Utils::reshape_sum_backward(gy, x_shape, axis, keepdims);
 			//spvar& gx = broadcast_to(gy_reshape, x_shape);
-			spvar& gx = gy_reshape.broadcast_to(x_shape);
+			spvar& gx = util_func::broadcast_to(gy_reshape, x_shape);// gy_reshape.broadcast_to(x_shape);
 			return vec_spvar({ gx });
 		}
 	}
@@ -631,7 +635,8 @@ namespace md {
 	/// SumTo class constructor
 	/// </summary>
 	/// <param name="_shape"> - shape of sum?</param>
-	SumTo::SumTo(xarr_size& _shape) : shape(_shape) {
+	SumTo::SumTo(const xarr_size& _shape) 
+		: shape(_shape) {
 	
 	}
 
@@ -640,7 +645,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar SumTo::forward(vec_spvar& xs) {
+	vec_spvar SumTo::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(SumTo::forward) - Size mismatch");
 		}
@@ -657,13 +662,13 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar SumTo::backward(vec_spvar& gys) {
+	vec_spvar SumTo::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(SumTo::backward) - Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
-			return vec_spvar({ gy.broadcast_to(x_shape) });
+			return vec_spvar({ util_func::broadcast_to(gy, x_shape) });
 		}
 	}
 
@@ -672,7 +677,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Tanh::forward(vec_spvar& xs) {
+	vec_spvar Tanh::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Tanh::forward) - Size mismatch");
 		}
@@ -687,7 +692,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Tanh::backward(vec_spvar& gys) {
+	vec_spvar Tanh::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Tanh::backward) - Size mismatch");
 		}
@@ -703,7 +708,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Transpose::forward(vec_spvar& xs) {
+	vec_spvar Transpose::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Transpose::forward) - Size mismatch");
 		}
@@ -718,7 +723,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Transpose::backward(vec_spvar& gys) {
+	vec_spvar Transpose::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Transpose::backward) - Size mismatch");
 		}
@@ -733,7 +738,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar ReLU::forward(vec_spvar& xs) {
+	vec_spvar ReLU::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(ReLU::forward) - Size mismatch");
 		}
@@ -748,7 +753,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar ReLU::backward(vec_spvar& gys) {
+	vec_spvar ReLU::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(ReLU::backward) - Size mismatch");
 		}
@@ -765,7 +770,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Softmax::forward(vec_spvar& xs) {
+	vec_spvar Softmax::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Softmax::forward) - Size mismatch");
 		}
@@ -786,7 +791,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Softmax::backward(vec_spvar& gys) {
+	vec_spvar Softmax::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Softmax::backward) - Size mismatch");
 		}
@@ -794,7 +799,7 @@ namespace md {
 			spvar& gy = gys[0]->get_grad();
 			spvar& y = outputs[0];
 			spvar& gx = y * gy;
-			spvar& sumdx = gx.sum(axis, true);
+			spvar& sumdx = util_func::sum(gx, axis, true);// gx.sum(axis, true);
 			spvar& y_sumdx = y * sumdx;
 			return vec_spvar({ gx - y_sumdx });
 		}
@@ -805,7 +810,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar GetItem::forward(vec_spvar& xs) {
+	vec_spvar GetItem::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(GetItem::forward) - Size mismatch");
 		}
@@ -820,7 +825,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar GetItem::backward(vec_spvar& gys) {
+	vec_spvar GetItem::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(GetItem::backward) - Size mismatch");
 		}
@@ -837,7 +842,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar GetItemGrad::forward(vec_spvar& gys) {
+	vec_spvar GetItemGrad::forward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(GetItemGrad::forward) - Size mismatch");
 		}
@@ -855,7 +860,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar GetItemGrad::backward(vec_spvar& ggxs) {
+	vec_spvar GetItemGrad::backward(const vec_spvar& ggxs) {
 		if (ggxs.size() != 1) {
 			throw LocalException("(GetItemGrad::backward) - Size mismatch");
 		}
@@ -870,7 +875,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable (last item is t)</param>
 	/// <returns></returns>
-	vec_spvar SoftmaxCrossEntropy::forward(vec_spvar& xs) {
+	vec_spvar SoftmaxCrossEntropy::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
 			throw LocalException("(SoftmaxCrossEntropy::forward) - Size mismatch");
 		}
@@ -898,7 +903,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar SoftmaxCrossEntropy::backward(vec_spvar& gys) {
+	vec_spvar SoftmaxCrossEntropy::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(SoftmaxCrossEntropy::backward) - Size mismatch");
 		}
@@ -909,7 +914,7 @@ namespace md {
 			size_t N = x->get_shape()[0];
 			size_t CLS_NUM = x->get_shape()[1];
 			gy = gy * (1.0 / static_cast<double>(N));
-			spvar& y = x.softmax();
+			spvar& y = util_func::softmax(x);// x.softmax();
 			xarr_d t_onehot = xt::view(xt::eye(CLS_NUM), xt::keep(t->get_data()), xt::all());
 			spvar& res = (y - spvar::create(t_onehot)) * gy;
 			return vec_spvar({ res });
@@ -921,7 +926,7 @@ namespace md {
 	/// </summary>
 	/// <param name="xs"> - input variable</param>
 	/// <returns></returns>
-	vec_spvar Clip::forward(vec_spvar& xs) {
+	vec_spvar Clip::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
 			throw LocalException("(Clip::forward) - Size mismatch");
 		}
@@ -937,7 +942,7 @@ namespace md {
 	/// </summary>
 	/// <param name="gys"> - gradient variable</param>
 	/// <returns></returns>
-	vec_spvar Clip::backward(vec_spvar& gys) {
+	vec_spvar Clip::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
 			throw LocalException("(Clip::backward) - Size mismatch");
 		}

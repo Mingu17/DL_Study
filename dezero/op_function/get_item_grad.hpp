@@ -9,8 +9,8 @@ namespace md {
 		GetItemGrad(const vec_xslice& _slices, const xarr_size& _in_shape)
 			: slices(_slices), in_shape(_in_shape) {}
 
-		vec_spvar forward(vec_spvar& xs);
-		vec_spvar backward(vec_spvar& gys);
+		vec_spvar forward(const vec_spvar& xs);
+		vec_spvar backward(const vec_spvar& gys);
 
 	protected:
 		vec_xslice slices;

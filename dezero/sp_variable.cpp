@@ -10,7 +10,7 @@ namespace md {
 	int start_cnt = -1;
 	int var_id = 1982;
 
-	std::ostream& operator<<(std::ostream& out, spvar& v) {
+	std::ostream& operator<<(std::ostream& out, const spvar& v) {
 		out << /*xt::print_options::precision(8) <<*/ v->get_data();
 		return out;
 	}
@@ -67,118 +67,36 @@ namespace md {
 		return md::op_func::div(x0, x1);
 	}
 
-	spvar& spvar::pow(const double c) {
-		return md::math::vpow(*this, c);
+	double spvar::operator[](int idx) {
+		return ptr->get_data()(idx);
 	}
 
-	spvar& spvar::sin() {
-		return md::math::vsin(*this);
-	}
-
-	spvar& spvar::cos() {
-		return md::math::vcos(*this);
-	}
-
-	spvar& spvar::tanh() {
-		return md::math::vtanh(*this);
-	}
-
-	spvar& spvar::exp() {
-		return md::math::vexp(*this);
-	}
-
-	spvar& spvar::reshape(xarr_size target_size) {
-		return md::util_func::vreshape(*this, target_size);
+	spvar& spvar::reshape(const xarr_size& target_size) {
+		return md::inner_util_func::vreshape(*this, target_size);
 	}
 
 	spvar& spvar::transpose() {
-		return md::util_func::vtranspose(*this);
+		return md::inner_util_func::vtranspose(*this);
 	}
 
 	spvar& spvar::T() {
-		return md::util_func::vtranspose(*this);
+		return md::inner_util_func::vtranspose(*this);
 	}
 
-	spvar& spvar::broadcast_to(xarr_size& shape) {
-		return md::util_func::vbroadcast_to(*this, shape);
+	spvar& spvar::dot(const spvar& W) {
+		return md::inner_util_func::vdot(*this, W);
 	}
 
-	spvar& spvar::sum_to(xarr_size& shape) {
-		return md::util_func::vsum_to(*this, shape);
-	}
-
-	spvar& spvar::sum(const xarr_size& axis, bool keepdims) {
-		return md::util_func::vsum(*this, axis, keepdims);
-	}
-
-	spvar& spvar::dot(spvar& W) {
-		return md::util_func::vdot(*this, W);
-	}
-
-	spvar& spvar::matmul(spvar& x) { //equal dot()
-		return md::util_func::vdot(*this, x);
-	}
-
-	spvar& spvar::mean_squared_error(spvar& x0) {
-		return md::util_func::vmean_squared_error(*this, x0);
-	}
-
-	spvar& spvar::softmax(size_t axis) {
-		return softmax(xarr_size({ axis }));
-	}
-
-	spvar& spvar::softmax(const xarr_size& axis) {
-		return md::util_func::vsoftmax(*this, axis);
-	}
-
-	spvar& spvar::softmax_cross_entropy(spvar& t) {
-		return md::util_func::vsoftmax_cross_entropy(*this, t);
-	}
-
-	spvar& spvar::relu() {
-		return md::util_func::vrelu(*this);
-	}
-
-	spvar& spvar::linear(spvar& W, spvar& b) {
-		return md::util_func::vlinear(*this, W, b);
-	}
-
-	spvar& spvar::linear(spvar& W, spvar&& b) {
-		if (b == nullptr) {
-			return md::util_func::vlinear(*this, W);
-		}
-		else {
-			return md::util_func::vlinear(*this, W, b);
-		}
-	}
-
-	spvar& spvar::linear_simple(spvar& W, spvar&& b) {
-		spvar& t = this->matmul(W);
-		if (b == nullptr) {
-			return t;
-		}
-		else {
-			spvar& y = t + b;
-			t.release();
-			return y;
-		}
-	}
-
-	spvar& spvar::sigmoid_simple() {
-		spvar& y = 1.0 / (1.0 + md::math::vexp(*this));
-		return y;
-	}
-
-	spvar& spvar::sigmoid() {
-		return md::util_func::vsigmoid(*this);
+	spvar& spvar::matmul(const spvar& x) { //equal dot()
+		return md::inner_util_func::vdot(*this, x);
 	}
 
 	spvar& spvar::get_item(const vec_xslice& slices) {
-		return md::util_func::vget_item(*this, slices);
+		return md::inner_util_func::vget_item(*this, slices);
 	}
 
 	spvar& spvar::clip(double x_min, double x_max) {
-		return md::util_func::vclip(*this, x_min, x_max);
+		return md::inner_util_func::vclip(*this, x_min, x_max);
 	}
 
 	void spvar::setup_id() {

@@ -6,14 +6,14 @@
 namespace md {
 	class Softmax : public Function {
 	public:
-		Softmax(size_t _axis = 1) {
+		Softmax(const size_t _axis = 1) {
 			axis = xarr_size({ _axis });
 		}
 
 		Softmax(const xarr_size& _axis) : axis(_axis) {}
 
-		vec_spvar forward(vec_spvar& xs);
-		vec_spvar backward(vec_spvar& gys);
+		vec_spvar forward(const vec_spvar& xs);
+		vec_spvar backward(const vec_spvar& gys);
 
 	protected:
 		xarr_size axis;

@@ -10,11 +10,11 @@ namespace md {
 
 	class Utils {
 	public:
-		static xarr_d sum_to(xarr_d& x, xarr_size& shape);
+		static xarr_d sum_to(const xarr_d& x, const xarr_size& shape);
 		static spvar& reshape_sum_backward(
 			spvar& gy, 
-			xarr_size& x_shape, 
-			xarr_size& axis, 
+			const xarr_size& x_shape, 
+			const xarr_size& axis, 
 			bool keepdims
 		);
 
@@ -45,10 +45,11 @@ namespace md {
 			return xt::zeros<double>(shape);
 		}
 
-		static xarr_d logsumexp(xarr_d& x, size_t axis);
-		static xarr_d logsumexp(xarr_d& x, const xarr_size& axis);
+		static xarr_d logsumexp(const xarr_d& x, size_t axis);
+		static xarr_d logsumexp(const xarr_d& x, const xarr_size& axis);
 
 		static void get_spiral(vec_xarr_d& out_data, bool train = true);
+		static void get_spiral(xarr_d& out_data, xarr_d& out_label, bool train = true);
 	private:
 		
 	};

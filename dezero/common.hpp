@@ -25,7 +25,9 @@ namespace md {
 
 	typedef xt::xarray<double> xarr_d;
 	typedef xt::xarray<float> xarr_f;
-	//typedef xt::xarray<size_t> xarr_st;
+	typedef xt::xarray<int> xarr_i;
+	typedef xt::xarray<unsigned char> xarr_uc;
+	typedef xt::xarray<char> xarr_c;
 	typedef xt::svector<size_t> xarr_size;
 	typedef vector<spvar> vec_spvar;
 	typedef vector<xarr_d> vec_xarr_d;
@@ -33,6 +35,9 @@ namespace md {
 	typedef unsigned long long ull;
 	typedef xt::xdynamic_slice_vector vec_xslice;
 	
+	template<class T>
+	using SP = std::shared_ptr<T>;
+
 	class Common {
 	public:
 		static bool xarr_isinit(const xarr_d& arr) {
@@ -49,9 +54,9 @@ namespace md {
 			return false;
 		}
 
-		static void xarr_init(xarr_d& arr) {
-			arr = xarr_d({ DBL_MAX });
-		}
+		//static void xarr_init(xarr_d& arr) {
+		//	arr = xarr_d({ DBL_MAX });
+		//}
 
 		template<typename ... Args>
 		static std::string string_format(const std::string& format, Args ... args)
@@ -70,5 +75,10 @@ namespace md {
 
 		static bool enable_backprop;
 	};
+
+	template<class T, class... Args>
+	static SP<T> SPK(Args... args) {
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
 }
 #endif

@@ -4,7 +4,6 @@
 
 namespace md {
 	void Function::push_ref(double d) {
-		//auto v = spvar::spvar_create(d);
 		auto v = spvar::create(d);
 		inputs.push_back(v);
 	}
@@ -18,15 +17,8 @@ namespace md {
 	}
 
 	void Function::compute_outputs() {
-		//std::cout << "======= " << typeid(*this).name() << " =======" << std::endl;
-		//std::cout << "inputs : ";
-		//for (int i = 0; i < inputs.size(); ++i) {
-		//	std::cout << inputs[i] << ", ";
-		//}
-		//std::cout << std::endl;
 		outputs = forward(inputs);
-		//std::cout << "outputs : " << outputs[0] << std::endl;
-
+		
 		if (Common::enable_backprop) {
 			generation = 0;
 			for (auto obj : inputs) {

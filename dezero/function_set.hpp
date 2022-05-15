@@ -21,6 +21,7 @@
 #include "op_function/linear.hpp"
 #include "op_function/sigmoid.hpp"
 #include "op_function/get_item.hpp"
+#include "op_function/get_item_grad.hpp"
 #include "op_function/relu.hpp"
 #include "op_function/softmax.hpp"
 #include "op_function/softmax_cross_entropy.hpp"
@@ -31,7 +32,6 @@
 
 namespace md {
 	extern std::stack<std::shared_ptr<Function>> op_stack;
-	//extern int op_cnt;
 	extern int start_cnt;
 	extern int var_id;
 
@@ -41,7 +41,8 @@ namespace md {
 		return op_stack.top()->call(args...)[0];
 	}
 
-	namespace op_func {
+	class op_func {
+	public:
 		template<typename T0, typename T1>
 		static inline spvar& add(T0& x0, T1& x1) {
 			return compute<Add>(x0, x1);
@@ -57,7 +58,7 @@ namespace md {
 			return compute<Sub>(x0, x1);
 		}
 
-		static inline spvar& neg(spvar& x) {
+		static inline spvar& neg(const spvar& x) {
 			return compute<Neg>(x);
 		}
 
@@ -65,111 +66,106 @@ namespace md {
 		static inline spvar& div(T0& x0, T1& x1) {
 			return compute<Div>(x0, x1);
 		}
-	}
+	};
 
-	namespace math {
+	class math {
+	public:
 		template<typename T0>
-		static inline spvar& vpow(T0& x, const double c) {
+		static inline spvar& pow(T0& x, const double c) {
 			op_stack.push(std::make_shared<Pow>(c));
 			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vsin(spvar& x) {
+		static inline spvar& sin(const spvar& x) {
 			return compute<Sin>(x);
 		}
 
-		static inline spvar& vcos(spvar& x) {
+		static inline spvar& cos(const spvar& x) {
 			return compute<Cos>(x);
 		}
 
-		static inline spvar& vtanh(spvar& x) {
+		static inline spvar& tanh(const spvar& x) {
 			return compute<Tanh>(x);
 		}
 
-		static inline spvar& vexp(spvar& x) {
+		static inline spvar& exp(const spvar& x) {
 			return compute<Exp>(x);
 		}
-	}
+	};
 
-	namespace util_func {
-		static inline spvar& vreshape(spvar& x, xarr_size target_size) {
+	class inner_util_func {
+	private:
+		static inline spvar& vreshape(const spvar& x, const xarr_size& target_size) {
 			op_stack.push(std::make_shared<Reshape>(target_size));
 			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vtranspose(spvar& x) {
+		static inline spvar& vtranspose(const spvar& x) {
 			return compute<Transpose>(x);
 		}
 
-		static inline spvar& vbroadcast_to(spvar& x, xarr_size& shape) {
-			if (x->get_data().shape() == shape) {
-				return x;
-			}
-			else {
-				op_stack.push(std::make_shared<BroadcastTo>(shape));
-				return op_stack.top()->call(x)[0];
-			}
+		static inline spvar& vdot(const spvar& x, const spvar& W) {
+			return compute<MatMul>(x, W);
 		}
 
-		static inline spvar& vsum_to(spvar& x, xarr_size& shape) {
-			if (x->get_data().shape() == shape) {
-				return x;
-			}
-			else {
-				op_stack.push(std::make_shared<SumTo>(shape));
-				return op_stack.top()->call(x)[0];
-			}
+		static inline spvar& vget_item(const spvar& x, const vec_xslice& slices) {
+			op_stack.push(std::make_shared<GetItem>(slices));
+			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vsum(spvar& x, const xarr_size& axis, bool keepdims = false) {
+		static inline spvar& vclip(const spvar& x, const double x_min, const double x_max) {
+			op_stack.push(std::make_shared<Clip>(x_min, x_max));
+			return op_stack.top()->call(x)[0];
+		}
+
+		friend class spvar;
+	};
+
+	class util_func {
+	public:
+		static spvar& broadcast_to(spvar& x, const xarr_size& shape);
+		static spvar& sum_to(spvar& x, const xarr_size& shape);
+		static spvar accuracy(const spvar& y, const spvar& t);
+
+		static inline spvar& sum(const spvar& x, const xarr_size& axis, bool keepdims = false) {
 			op_stack.push(std::make_shared<Sum>(axis, keepdims));
 			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vdot(spvar& x, spvar& W) {
-			return compute<MatMul>(x, W);
-		}
-
-		static inline spvar& vmean_squared_error(spvar& x0, spvar& x1) {
+		static inline spvar& mean_squared_error(const spvar& x0, const spvar& x1) {
 			return compute<MeanSquaredError>(x0, x1);
 		}
 
-		static inline spvar& vlinear(spvar& x, spvar& W) {
+		static inline spvar& linear(const spvar& x, const spvar& W) {
 			return compute<Linear>(x, W);
 		}
 
-		static inline spvar& vlinear(spvar& x, spvar& W, spvar& b) {
+		static inline spvar& linear(const spvar& x, const spvar& W, const spvar& b) {
 			return compute<Linear>(x, W, b);
 		}
 
-		static inline spvar& vsigmoid(spvar& x) {
+		static inline spvar& sigmoid(const spvar& x) {
 			return compute<Sigmoid>(x);
 		}
 
-		static inline spvar& vsoftmax(spvar& x, const xarr_size& axis) {
+		static inline spvar& softmax(const spvar& x) {
+			return softmax(x, { 1 });
+		}
+
+		static inline spvar& softmax(const spvar& x, const xarr_size& axis) {
 			op_stack.push(std::make_shared<Softmax>(axis));
 			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vrelu(spvar& x) {
+		static inline spvar& relu(const spvar& x) {
 			return compute<ReLU>(x);
 		}
 
-		static inline spvar& vsoftmax_cross_entropy(spvar& x, spvar& t) {
+		static inline spvar& softmax_cross_entropy(const spvar& x, const spvar& t) {
 			op_stack.push(std::make_shared<SoftmaxCrossEntropy>());
 			return op_stack.top()->call(x, t)[0];
 		}
-
-		static inline spvar& vget_item(spvar& x, const vec_xslice& slices) {
-			op_stack.push(std::make_shared<GetItem>(slices));
-			return op_stack.top()->call(x)[0];
-		}
-		
-		static inline spvar& vclip(spvar& x, double x_min, double x_max) {
-			op_stack.push(std::make_shared<Clip>(x_min, x_max));
-			return op_stack.top()->call(x)[0];
-		}
-	}
+	};
 
 	static inline void start_op() {
 		if (start_cnt == -1) {
@@ -183,7 +179,7 @@ namespace md {
 	static inline void clear_op(bool isDebug = false) {
 		int now_cnt = static_cast<int>(op_stack.size());
 		int op = now_cnt - start_cnt;
-		for (int i = 0; i < op; ++i) 
+		for (int i = 0; i < op; ++i)
 			op_stack.pop();
 		if (isDebug) {
 			std::cout << "clear " << op << " variables." << std::endl;

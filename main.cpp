@@ -11,6 +11,9 @@
 #include "dezero/optimizer/adagrad.hpp"
 #include "dezero/optimizer/adadelta.hpp"
 #include "dezero/optimizer/adam.hpp"
+#include "dezero/dataset/mnist.hpp"
+#include "dezero/dataloaders.hpp"
+#include <chrono>
 //#include <vector>
 //#include <memory>
 //#include <stack>
@@ -95,7 +98,7 @@ bool Common::enable_backprop = true;
 
 spvar& f(spvar& x) {
 	//spvar& ret = pow(x, 4) - (2.0 * pow(x, 2));
-	spvar& ret = x.pow(4) - (2.0 * x.pow(2));
+	spvar& ret = math::pow(x, 4) - (2.0 * math::pow(x, 2));
 	return ret;
 }
 
@@ -416,43 +419,122 @@ int main(int argc, char** argv) {
 		//cout << y[0] << endl;
 		//cout << loss << endl;
 
-		int max_epoch = 300;
-		int batch_size = 30;
-		int hidden_size = 10;
-		double lr = 1.0;
+		//int max_epoch = 300;
+		//int batch_size = 30;
+		//int hidden_size = 10;
+		//double lr = 1.0;
 
-		vec_xarr_d train_data;
-		Utils::get_spiral(train_data, true);
+		//vec_xarr_d train_data;
+		//Utils::get_spiral(train_data, true);
 
-		//cout << train_data[0] << endl;
-		auto model = MLP({ hidden_size, 3 });
-		auto optimizer = SGD(lr);
+		////cout << train_data[0] << endl;
+		//auto model = MLP({ hidden_size, 3 });
+		//auto optimizer = SGD(lr);
+		//optimizer.setup(&model);
+		//size_t data_size = train_data[0].shape()[0];
+		//int max_iter = std::ceil(static_cast<double>(data_size) / batch_size);
+
+		//for (int epoch = 0; epoch < max_epoch; ++epoch) {
+		//	xt::xarray<int> index = xt::random::permutation(data_size);
+		//	double sum_loss = 0.0;
+
+		//	for (int i = 0; i < max_iter; ++i) {
+		//		xt::xarray<int> batch_index = xt::view(index, xt::range(i * batch_size, (i + 1) * batch_size));
+		//		xarr_d batch_x = xt::view(train_data[0], xt::keep(batch_index), xt::all());
+		//		xarr_d batch_t = xt::index_view(train_data[1], batch_index);
+		//		spvar t_x = spvar::create(batch_x);
+		//		spvar t_t = spvar::create(batch_t);
+
+		//		auto& y = model.call(t_x);
+		//		auto& loss = util_func::softmax_cross_entropy(y[0], t_t);// y[0].softmax_cross_entropy(t_t);
+		//		model.clear_grad();
+		//		loss->backward();
+		//		optimizer.update();
+		//		sum_loss += loss->get_data()(0) * batch_t.size();
+		//		clear_op();
+		//	}
+
+		//	double avg_loss = sum_loss / data_size;
+		//	cout << "epoch " << epoch + 1 << ", loss " << avg_loss << endl;
+		//}
+
+		int max_epoch = 5;
+		int batch_size = 100;
+		int hidden_size = 1000;
+
+		auto train_set = MNIST(true);
+		auto test_set = MNIST(false);
+		auto train_loader = DataLoader(train_set, batch_size);
+		auto test_loader = DataLoader(test_set, batch_size, false);
+
+		auto model = MLP({ hidden_size, hidden_size, 10 }, util_func::relu);
+		auto optimizer = Adam();
 		optimizer.setup(&model);
-		size_t data_size = train_data[0].shape()[0];
-		int max_iter = std::ceil(static_cast<double>(data_size) / batch_size);
 
+		//using namespace chrono;
 		for (int epoch = 0; epoch < max_epoch; ++epoch) {
-			xt::xarray<int> index = xt::random::permutation(data_size);
-			double sum_loss = 0.0;
+			double sum_loss = 0.0, sum_acc = 0.0;
+			//int cnt = 0;
+			//system_clock::time_point start = system_clock::now();	
+			for (; train_loader() != DataLoader::END; train_loader++) {
+				vec_spvar train;
+				train_loader.get(train);
+				//system_clock::time_point check = system_clock::now();
+				//milliseconds milli = duration_cast<milliseconds>(check - start);
+				//cout << "1:" << milli.count() << endl;
 
-			for (int i = 0; i < max_iter; ++i) {
-				xt::xarray<int> batch_index = xt::view(index, xt::range(i * batch_size, (i + 1) * batch_size));
-				xarr_d batch_x = xt::view(train_data[0], xt::keep(batch_index), xt::all());
-				xarr_d batch_t = xt::index_view(train_data[1], batch_index);
-				spvar t_x = spvar::create(batch_x);
-				spvar t_t = spvar::create(batch_t);
+				auto& y = model(train[0])[0];
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "2:" << milli.count() << endl;
 
-				auto& y = model.call(t_x);
-				auto& loss = y[0].softmax_cross_entropy(t_t);
+				auto& loss = util_func::softmax_cross_entropy(y, train[1]);
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "3:" << milli.count() << endl;
+
+				auto acc = util_func::accuracy(y, train[1]);
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "4:" << milli.count() << endl;
+
 				model.clear_grad();
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "5:" << milli.count() << endl;
+
 				loss->backward();
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "6:" << milli.count() << endl;
+
 				optimizer.update();
-				sum_loss += loss->get_data()(0) * batch_t.size();
+				//check = system_clock::now();
+				//milli = duration_cast<milliseconds>(check - start);
+				//cout << "7:" << milli.count() << endl;
+
+				sum_loss += loss[0] * train[1]->get_len();
+				sum_acc += acc[0] * train[1]->get_len();
+				//cout << ++cnt << endl;
 				clear_op();
 			}
+			cout << "epoch: " << epoch + 1 << endl;
+			cout << "train loss: " << sum_loss / train_set.get_len() << ", accuracy: " << sum_acc / train_set.get_len() << endl;
 
-			double avg_loss = sum_loss / data_size;
-			cout << "epoch " << epoch + 1 << ", loss " << avg_loss << endl;
+			sum_loss = sum_acc = 0.0;
+
+			for (; test_loader() != DataLoader::END; test_loader++) {
+				vec_spvar test;
+				test_loader.get(test);
+				auto& y = model(test[0])[0];
+				auto& loss = util_func::softmax_cross_entropy(y, test[1]);
+				auto acc = util_func::accuracy(y, test[1]);
+				sum_loss += loss[0] * test[1]->get_len();
+				sum_acc += acc[0] * test[1]->get_len();
+				clear_op();
+			}
+			cout << "test loss: " << sum_loss / test_set.get_len() << ", accuracy: " << sum_acc / test_set.get_len() << endl;
+			clear_op();
 		}
 
 		clear_op();
@@ -461,7 +543,8 @@ int main(int argc, char** argv) {
 	}
 	catch (LocalException& e) {
 		cout << e.get_message() << endl;
+		return EXIT_FAILURE;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

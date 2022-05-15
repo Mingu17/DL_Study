@@ -88,12 +88,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,12 +102,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,14 +118,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,18 +136,20 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dezero\dataloaders.cpp" />
     <ClCompile Include="dezero\function.cpp" />
+    <ClCompile Include="dezero\function_set.cpp" />
     <ClCompile Include="dezero\layer.cpp" />
     <ClCompile Include="dezero\model.cpp" />
     <ClCompile Include="dezero\optimizer.cpp" />
@@ -160,7 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dezero\common_const.hpp" />
+    <ClInclude Include="dezero\dataloaders.hpp" />
     <ClInclude Include="dezero\datasets.hpp" />
+    <ClInclude Include="dezero\dataset\mnist.hpp" />
+    <ClInclude Include="dezero\dataset\spiral.hpp" />
     <ClInclude Include="dezero\layer.hpp" />
     <ClInclude Include="dezero\layer\linear_layer.hpp" />
     <ClInclude Include="dezero\model.hpp" />
@@ -201,6 +206,10 @@
     <ClInclude Include="dezero\op_function\tanh.hpp" />
     <ClInclude Include="dezero\op_function\transpose.hpp" />
     <ClInclude Include="dezero\sp_variable.hpp" />
+    <ClInclude Include="dezero\transforms.hpp" />
+    <ClInclude Include="dezero\transform\flatten.hpp" />
+    <ClInclude Include="dezero\transform\half_scale.hpp" />
+    <ClInclude Include="dezero\transform\normalize.hpp" />
     <ClInclude Include="dezero\utils.hpp" />
     <ClInclude Include="dezero\variable.hpp" />
   </ItemGroup>

@@ -7,7 +7,7 @@
 namespace md {
 	class LinearLayer : public Layer {
 	public:
-		LinearLayer(int _out_size, bool nobias = false, int _in_size = 0) {
+		LinearLayer(const int _out_size, const bool nobias = false, const int _in_size = 0) {
 			in_size = _in_size;
 			out_size = _out_size;
 
@@ -26,12 +26,14 @@ namespace md {
 		}
 
 		vec_spvar forward(vec_spvar& xs) {
+			//const spvar& x = xs[0];
 			spvar& x = xs[0];
 			if (W == nullptr) {
 				in_size = x->get_shape()[1];// static_cast<int>(x->get_shape()[1]);
 				_init_W();
 			}
-			return vec_spvar({ x.linear(W, b) });
+			//return vec_spvar({ x.linear(W, b) });
+			return vec_spvar({ util_func::linear(x, W, b) });
 		}
 
 	protected:

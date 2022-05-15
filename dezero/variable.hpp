@@ -19,7 +19,7 @@ namespace md {
 	public:
 		Variable(std::string _name = "") :
 			creator(nullptr), generation(0), name(_name) {
-			Common::xarr_init(data);
+			data = xarr_d({ DBL_MAX });
 			clear_grad();
 		}
 
@@ -56,7 +56,7 @@ namespace md {
 			return grad;
 		}
 
-		void set_grad(spvar& _grad) {
+		void set_grad(const spvar& _grad) {
 			grad = _grad;
 		}
 
@@ -92,7 +92,7 @@ namespace md {
 			return data.shape()[0];
 		}
 
-		void add_grad(spvar& _grad);
+		void add_grad(const spvar& _grad);
 		void set_creator(Function* func);
 		void backward(bool retain_grad = false);
 

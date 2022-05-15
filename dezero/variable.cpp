@@ -37,7 +37,7 @@ namespace md {
 			funcs.pop();
 
 			if (Common::enable_backprop) {
-				vec_spvar gxs = func->backward(gys);
+				vec_spvar gxs = func->backward(gys); //이 부분 수정해야 함. 느려지는 주 원인인 듯
 				vec_spvar& inputs = func->get_inputs();
 
 				for (int i = 0, j = 0; i < inputs.size() && j < gxs.size(); ++i, ++j) {
@@ -71,7 +71,7 @@ namespace md {
 		generation = func->get_generation() + 1;
 	}
 
-	void Variable::add_grad(spvar& _grad) {
+	void Variable::add_grad(const spvar& _grad) {
 		if (grad.get()->get_size() != _grad.get()->get_size()) {
 			throw LocalException("(Variable::add_grad) - Size mismatch");
 		}

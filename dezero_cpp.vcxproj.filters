@@ -45,6 +45,12 @@
     <ClCompile Include="dezero\op_function\op_function.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="dezero\dataloaders.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dezero\function_set.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dezero\variable.hpp">
@@ -177,6 +183,27 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="dezero\datasets.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\transforms.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\dataloaders.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\transform\half_scale.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\transform\flatten.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\transform\normalize.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\dataset\spiral.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dezero\dataset\mnist.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

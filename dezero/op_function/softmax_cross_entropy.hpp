@@ -8,8 +8,8 @@ namespace md {
 	public:
 		SoftmaxCrossEntropy() {}
 
-		vec_spvar forward(vec_spvar& xs);
-		vec_spvar backward(vec_spvar& gys);
+		vec_spvar forward(const vec_spvar& xs);
+		vec_spvar backward(const vec_spvar& gys);
 	};
 }
 #endif

@@ -32,7 +32,7 @@ namespace md {
 			return params;
 		}
 
-		void param_add(parameter& param, string name = "");
+		void param_add(const parameter& param, string name = "");
 		void clear_grad();
 		virtual vec_spvar forward(vec_spvar& xs) = 0;
 

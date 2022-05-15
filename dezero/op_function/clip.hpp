@@ -6,12 +6,12 @@
 namespace md {
 	class Clip : public Function {
 	public:
-		Clip(double _x_min, double _x_max)
+		Clip(const double _x_min, const double _x_max)
 			: x_min(_x_min), x_max(_x_max) {
 		}
 
-		vec_spvar forward(vec_spvar& xs);
-		vec_spvar backward(vec_spvar& gys);
+		vec_spvar forward(const vec_spvar& xs);
+		vec_spvar backward(const vec_spvar& gys);
 
 	protected:
 		double x_min;

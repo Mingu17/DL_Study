@@ -24,7 +24,7 @@ namespace md {
 			return outputs;
 		}
 
-		vec_spvar& call(vec_spvar& _input) {
+		vec_spvar& call(const vec_spvar& _input) {
 			inputs.clear();
 			for (int i = 0; i < _input.size(); ++i) {
 				inputs.push_back(_input[i]);
@@ -34,8 +34,8 @@ namespace md {
 			return outputs;
 		}
 
-		virtual vec_spvar forward(vec_spvar& xs) = 0;
-		virtual vec_spvar backward(vec_spvar& gys) = 0;
+		virtual vec_spvar forward(const vec_spvar& xs) = 0;
+		virtual vec_spvar backward(const vec_spvar& gys) = 0;
 
 		Function& operator()(Function& func) {
 			prev_func = &func;
@@ -58,25 +58,13 @@ namespace md {
 		void push_ref(double d);
 		void push_ref(spvar& v);
 		void push_ref(const spvar& v);
-
 		void push_ref(void) { return; }
-
-		//template<typename V>
-		//void push_ref(V& var) {
-		//
-		//}
 	
 		template<typename V, typename... Vs>
 		void push_ref(V&& var, Vs&&...vars) {
 			push_ref(var);
 			push_ref(vars...);
 		}
-
-		//template<typename V, typename... Vs>
-		//void push_ref(V& var, Vs&... vars) {
-		//	push_ref(var);
-		//	push_ref(vars...);
-		//}
 	
 		void compute_outputs();
 	protected:

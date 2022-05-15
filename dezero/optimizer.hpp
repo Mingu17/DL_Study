@@ -18,7 +18,6 @@ namespace md {
 
 	protected:
 		Model* target;
-		//Model& target2;
 	};
 }
 #endif
