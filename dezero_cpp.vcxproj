@@ -88,12 +88,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\md_lib\x86\xtl\include;D:\md_lib\x86\xsimd\include;D:\md_lib\x86\xtensor\include;D:\md_lib\x86\OpenBLAS-0.3.20-x32\include;D:\md_lib\x86\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\md_lib\x86\OpenBLAS-0.3.20-x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,12 +103,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\md_lib\x64\xtl\include;D:\md_lib\x64\xsimd\include;D:\md_lib\x64\xtensor\include;D:\md_lib\x64\OpenBLAS-0.3.20-x64\include;D:\md_lib\x64\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\md_lib\x64\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -118,14 +120,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\md_lib\x86\xtl\include;D:\md_lib\x86\xsimd\include;D:\md_lib\x86\xtensor\include;D:\md_lib\x86\OpenBLAS-0.3.20-x32\include;D:\md_lib\x86\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\md_lib\x86\OpenBLAS-0.3.20-x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,14 +139,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\xtensor-master\include;D:\xtl-master\include;D:\OpenBLAS-0.3.20-x64\include;D:\xtensor-blas-master\include;D:\OpenCV\opencv_440\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\md_lib\x64\xtl\include;D:\md_lib\x64\xsimd\include;D:\md_lib\x64\xtensor\include;D:\md_lib\x64\OpenBLAS-0.3.20-x64\include;D:\md_lib\x64\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>D:\OpenBLAS-0.3.20-x64\lib;D:\OpenCV\opencv_440\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\md_lib\x64\OpenBLAS-0.3.20-x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -206,6 +210,7 @@
     <ClInclude Include="dezero\op_function\tanh.hpp" />
     <ClInclude Include="dezero\op_function\transpose.hpp" />
     <ClInclude Include="dezero\sp_variable.hpp" />
+    <ClInclude Include="dezero\time_check.hpp" />
     <ClInclude Include="dezero\transforms.hpp" />
     <ClInclude Include="dezero\transform\flatten.hpp" />
     <ClInclude Include="dezero\transform\half_scale.hpp" />

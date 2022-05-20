@@ -8,7 +8,7 @@ namespace md {
 	class Transforms {
 	public:
 		Transforms() {}
-		virtual xarr_d compute(const xarr_d& in) = 0;
+		virtual xarr_f compute(const xarr_f& in) = 0;
 	};
 }
 #endif

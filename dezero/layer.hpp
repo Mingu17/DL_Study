@@ -37,7 +37,7 @@ namespace md {
 		virtual vec_spvar forward(vec_spvar& xs) = 0;
 
 	protected:
-		void push_ref(double d);
+		void push_ref(float f);
 		void push_ref(spvar& v);
 		void push_ref(const spvar& v);
 		void push_ref(void) { return; }

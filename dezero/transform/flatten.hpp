@@ -7,16 +7,16 @@ namespace md {
 	class Flatten : public Transforms {
 	public:
 		Flatten() {}
-		xarr_d compute(const xarr_d& x) {
+		xarr_f compute(const xarr_f& x) override {
 			xarr_size ori = x.shape();
 			xarr_size target;
-			int flat_size = 1;
-			for (int i = 1; i < ori.size(); ++i) {
+			size_t flat_size = 1;
+			for (size_t i = 1; i < ori.size(); ++i) {
 				flat_size = flat_size * ori[i];
 			}
 			target.push_back(ori[0]);
 			target.push_back(flat_size);
-			return const_cast<xarr_d&>(x).reshape(target);
+			return const_cast<xarr_f&>(x).reshape(target);
 		}
 	};
 }

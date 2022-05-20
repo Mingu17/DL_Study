@@ -24,11 +24,11 @@ namespace md {
 	}
 
 	spvar util_func::accuracy(const spvar& y, const spvar& t) {
-		xarr_d& ty = y->get_data();
-		xarr_d& tt = t->get_data();
-		xarr_d t_pred = xt::argmax(ty, 1);
-		xarr_d pred = t_pred.reshape(tt.shape());
-		xarr_d result = xt::equal(pred, tt);
+		xarr_f& ty = y->get_data();
+		xarr_f& tt = t->get_data();
+		xarr_f t_pred = xt::argmax(ty, 1);
+		xarr_f pred = t_pred.reshape(tt.shape());
+		xarr_f result = xt::equal(pred, tt);
 		return spvar::create(xt::mean(result));
 	}
 }

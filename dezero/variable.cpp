@@ -37,10 +37,11 @@ namespace md {
 			funcs.pop();
 
 			if (Common::enable_backprop) {
-				vec_spvar gxs = func->backward(gys); //이 부분 수정해야 함. 느려지는 주 원인인 듯
+				func->backward(gys); 
 				vec_spvar& inputs = func->get_inputs();
+				vec_spvar& gxs = func->get_grads();
 
-				for (int i = 0, j = 0; i < inputs.size() && j < gxs.size(); ++i, ++j) {
+				for (size_t i = 0, j = 0; i < inputs.size() && j < gxs.size(); ++i, ++j) {
 					Variable* x = inputs[i].get();
 
 					if (x->get_grad().get() == nullptr) {

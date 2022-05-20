@@ -188,22 +188,22 @@ namespace md {
 		friend std::ostream& operator<<(std::ostream& out, const spvar& v);
 
 		spvar& operator+(const spvar& x);
-		spvar& operator+(const double& x);
-		friend spvar& operator+(const double& x0, const spvar& x1);
+		spvar& operator+(const float& x);
+		friend spvar& operator+(const float& x0, const spvar& x1);
 
 		spvar& operator*(const spvar& x);
-		spvar& operator*(const double& x);
-		friend spvar& operator*(const double& x0, const spvar& x1);
+		spvar& operator*(const float& x);
+		friend spvar& operator*(const float& x0, const spvar& x1);
 
 		spvar& operator-(const spvar& x);
-		spvar& operator-(const double& x);
-		friend spvar& operator-(const double& x0, const spvar& x1);
+		spvar& operator-(const float& x);
+		friend spvar& operator-(const float& x0, const spvar& x1);
 
 		spvar& operator-();
 
 		spvar& operator/(const spvar& x);
-		spvar& operator/(const double& x);
-		friend spvar& operator/(const double& x0, const spvar& x1);
+		spvar& operator/(const float& x);
+		friend spvar& operator/(const float& x0, const spvar& x1);
 
 		double operator[](int idx);
 
@@ -215,10 +215,10 @@ namespace md {
 		spvar& matmul(const spvar& x); //equal dot()
 
 		spvar& get_item(const vec_xslice& slices);
-		spvar& clip(const double x_min, const double x_max);
+		spvar& clip(const float x_min, const float x_max);
 
-		static spvar create(const double& in);
-		static spvar create(const xarr_d& in);
+		static spvar create(const float& in);
+		static spvar create(const xarr_f& in);
 		static spvar create(const Variable& in);
 
 	private:		

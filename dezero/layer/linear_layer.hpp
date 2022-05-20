@@ -29,7 +29,7 @@ namespace md {
 			//const spvar& x = xs[0];
 			spvar& x = xs[0];
 			if (W == nullptr) {
-				in_size = x->get_shape()[1];// static_cast<int>(x->get_shape()[1]);
+				in_size = static_cast<int>(x->get_shape()[1]);
 				_init_W();
 			}
 			//return vec_spvar({ x.linear(W, b) });
@@ -38,7 +38,7 @@ namespace md {
 
 	protected:
 		void _init_W() {
-			xarr_d w_data = Utils::randn({ in_size, out_size }) * std::sqrt(1.0 / in_size);
+			xarr_f w_data = Utils::randn({ in_size, out_size }) * std::sqrt(1.0f / in_size);
 			W = parameter::create(w_data);
 			W->set_name("W");
 			params.insert(std::make_pair(W, "W"));

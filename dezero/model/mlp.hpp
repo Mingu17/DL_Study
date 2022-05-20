@@ -32,7 +32,7 @@ namespace md {
 
 		vec_spvar forward(vec_spvar& xs) {
 			if (layers.size() > 1) {
-				int i = 0; 
+				size_t i = 0; 
 				spvar& x = xs[0];
 				for (i = 0; i < layers.size() - 1; ++i) {
 					x = activation(layers[i]->call(x)[0]);

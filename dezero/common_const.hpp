@@ -5,7 +5,8 @@
 
 namespace md {
 	struct Constants {
-		static constexpr double PI = xt::numeric_constants<double>::PI;
+		//static constexpr double PI = xt::numeric_constants<double>::PI;
+		static constexpr float PI = 3.141592653589793238463f;
 	};
 }
 #endif

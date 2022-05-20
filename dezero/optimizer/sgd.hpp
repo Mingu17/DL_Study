@@ -6,12 +6,12 @@
 namespace md {
 	class SGD : public Optimizer {
 	public:
-		SGD(double _lr = 0.01) : lr(_lr) {}
+		SGD(const float _lr = 0.01f) : lr(_lr) {}
 
 		void update_one(const parameter& param);
 
 	protected:
-		double lr;
+		float lr;
 	};
 }
 

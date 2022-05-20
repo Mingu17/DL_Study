@@ -19,7 +19,7 @@ namespace md {
 	public:
 		Variable(std::string _name = "") :
 			creator(nullptr), generation(0), name(_name) {
-			data = xarr_d({ DBL_MAX });
+			data = xarr_f({ FLT_MAX });
 			clear_grad();
 		}
 
@@ -29,9 +29,9 @@ namespace md {
 			clear_grad();
 		}
 
-		Variable(const double _data, std::string _name = "") :
+		Variable(const float _data, std::string _name = "") :
 			creator(nullptr), generation(0), name(_name) {
-			data = xarr_d({ _data });
+			data = xarr_f({ _data });
 			clear_grad();
 		}
 
@@ -44,11 +44,11 @@ namespace md {
 			clear_grad();
 		}
 
-		xarr_d& get_data() {
+		xarr_f& get_data() {
 			return data;
 		}
 
-		void set_data(const xarr_d& _data) {
+		void set_data(const xarr_f& _data) {
 			data = _data;
 		}
 
@@ -97,7 +97,7 @@ namespace md {
 		void backward(bool retain_grad = false);
 
 	protected:
-		xarr_d data;
+		xarr_f data;
 		spvar grad;
 		Function* creator;
 		int generation;

@@ -96,11 +96,11 @@ bool Common::enable_backprop = true;
 //	return res;
 //}
 
-spvar& f(spvar& x) {
-	//spvar& ret = pow(x, 4) - (2.0 * pow(x, 2));
-	spvar& ret = math::pow(x, 4) - (2.0 * math::pow(x, 2));
-	return ret;
-}
+//spvar& f(spvar& x) {
+//	//spvar& ret = pow(x, 4) - (2.0 * pow(x, 2));
+//	spvar& ret = math::pow(x, 4) - (2.0 * math::pow(x, 2));
+//	return ret;
+//}
 
 int main(int argc, char** argv) {
 	try {
@@ -471,51 +471,19 @@ int main(int argc, char** argv) {
 		auto optimizer = Adam();
 		optimizer.setup(&model);
 
-		//using namespace chrono;
 		for (int epoch = 0; epoch < max_epoch; ++epoch) {
 			double sum_loss = 0.0, sum_acc = 0.0;
-			//int cnt = 0;
-			//system_clock::time_point start = system_clock::now();	
 			for (; train_loader() != DataLoader::END; train_loader++) {
 				vec_spvar train;
 				train_loader.get(train);
-				//system_clock::time_point check = system_clock::now();
-				//milliseconds milli = duration_cast<milliseconds>(check - start);
-				//cout << "1:" << milli.count() << endl;
-
 				auto& y = model(train[0])[0];
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "2:" << milli.count() << endl;
-
 				auto& loss = util_func::softmax_cross_entropy(y, train[1]);
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "3:" << milli.count() << endl;
-
 				auto acc = util_func::accuracy(y, train[1]);
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "4:" << milli.count() << endl;
-
 				model.clear_grad();
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "5:" << milli.count() << endl;
-
 				loss->backward();
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "6:" << milli.count() << endl;
-
 				optimizer.update();
-				//check = system_clock::now();
-				//milli = duration_cast<milliseconds>(check - start);
-				//cout << "7:" << milli.count() << endl;
-
 				sum_loss += loss[0] * train[1]->get_len();
 				sum_acc += acc[0] * train[1]->get_len();
-				//cout << ++cnt << endl;
 				clear_op();
 			}
 			cout << "epoch: " << epoch + 1 << endl;

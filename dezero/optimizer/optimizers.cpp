@@ -14,10 +14,10 @@ namespace md {
 	void MomentumSGD::update_one(const parameter& param) {
 		ull id = param.get_id();
 		if (vs.find(id) == vs.end()) {
-			xarr_d zd = xt::zeros_like(param->get_data());
+			xarr_f zd = xt::zeros_like(param->get_data());
 			vs.insert(std::make_pair(id, zd));
 		}
-		xarr_d& v = vs[id];
+		xarr_f& v = vs[id];
 		v *= momentum;
 		v -= lr * param->get_grad()->get_data();
 		param->get_data() += v;
@@ -28,8 +28,8 @@ namespace md {
 		if (hs.find(id) == hs.end()) {
 			hs.insert(std::make_pair(id, xt::zeros_like(param->get_data())));
 		}
-		xarr_d& h = hs[id];
-		xarr_d& grad = param->get_grad()->get_data();
+		xarr_f& h = hs[id];
+		xarr_f& grad = param->get_grad()->get_data();
 		h += grad * grad;
 		param->get_data() -= (lr * grad / (xt::sqrt(h) + eps));
 	}
@@ -41,20 +41,20 @@ namespace md {
 			msdx.insert(std::make_pair(id, xt::zeros_like(param->get_data())));
 		}
 
-		xarr_d& g = msg[id];
-		xarr_d& x = msdx[id];
-		xarr_d& grad = param->get_grad()->get_data();
+		xarr_f& g = msg[id];
+		xarr_f& x = msdx[id];
+		xarr_f& grad = param->get_grad()->get_data();
 
 		g *= rho;
-		g += ((1.0 - rho) * grad * grad);
-		xarr_d dx = xt::sqrt((x + eps) / (g + eps)) * grad;
+		g += ((1.0f - rho) * grad * grad);
+		xarr_f dx = xt::sqrt((x + eps) / (g + eps)) * grad;
 		x *= rho;
-		x += ((1.0 - rho) * dx * dx);
+		x += ((1.0f - rho) * dx * dx);
 		param->get_data() -= dx;
 	}
 
 	void Adam::update() {
-		t += 1;
+		t += 1.0f;
 		Optimizer::update();
 	}
 
@@ -64,18 +64,18 @@ namespace md {
 			ms.insert(std::make_pair(id, xt::zeros_like(param->get_data())));
 			vs.insert(std::make_pair(id, xt::zeros_like(param->get_data())));
 		}
-		xarr_d& m = ms[id];
-		xarr_d& v = vs[id];
-		xarr_d& grad = param->get_grad()->get_data();
+		xarr_f& m = ms[id];
+		xarr_f& v = vs[id];
+		xarr_f& grad = param->get_grad()->get_data();
 
 		m += (1.0 - beta1) * (grad - m);
 		v += (1.0 - beta2) * (grad * grad - v);
 		param->get_data() -= get_lr() * m / (xt::sqrt(v) + eps);
 	}
 
-	double Adam::get_lr() {
-		double fix1 = 1.0 - std::pow(beta1, t);
-		double fix2 = 1.0 - std::pow(beta2, t);
+	float Adam::get_lr() {
+		float fix1 = 1.0f - std::pow(beta1, t);
+		float fix2 = 1.0f - std::pow(beta2, t);
 		return alpha * std::sqrt(fix2) / fix1;
 	}
 }

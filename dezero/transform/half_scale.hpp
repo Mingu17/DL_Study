@@ -7,8 +7,8 @@ namespace md {
 	class HalfScale : public Transforms {
 	public:
 		HalfScale() {}
-		xarr_d compute(const xarr_d& x) {
-			return x * 0.5;
+		xarr_f compute(const xarr_f& x) override {
+			return x * 0.5f;
 		}
 	};
 }

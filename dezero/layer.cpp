@@ -3,8 +3,8 @@
 #include "variable.hpp"
 
 namespace md {
-	void Layer::push_ref(double d) {
-		auto v = spvar::create(d);
+	void Layer::push_ref(float f) {
+		auto v = spvar::create(f);
 		inputs.push_back(v);
 	}
 

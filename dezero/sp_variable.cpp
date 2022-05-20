@@ -19,11 +19,11 @@ namespace md {
 		return md::op_func::add(*this, x);
 	}
 
-	spvar& spvar::operator+(const double& d) {
+	spvar& spvar::operator+(const float& d) {
 		return md::op_func::add(*this, d);
 	}
 
-	spvar& operator+(const double& x0, const spvar& x1) {
+	spvar& operator+(const float& x0, const spvar& x1) {
 		return md::op_func::add(x0, x1);
 	}
 
@@ -31,11 +31,11 @@ namespace md {
 		return md::op_func::mul(*this, x);
 	}
 
-	spvar& spvar::operator*(const double& d) {
+	spvar& spvar::operator*(const float& d) {
 		return md::op_func::mul(*this, d);
 	}
 
-	spvar& operator*(const double& x0, const spvar& x1) {
+	spvar& operator*(const float& x0, const spvar& x1) {
 		return md::op_func::mul(x0, x1);
 	}
 
@@ -43,11 +43,11 @@ namespace md {
 		return md::op_func::sub(*this, x);
 	}
 
-	spvar& spvar::operator-(const double& d) {
+	spvar& spvar::operator-(const float& d) {
 		return md::op_func::sub(*this, d);
 	}
 
-	spvar& operator-(const double& x0, const spvar& x1) {
+	spvar& operator-(const float& x0, const spvar& x1) {
 		return md::op_func::sub(x0, x1);
 	}
 
@@ -59,11 +59,11 @@ namespace md {
 		return md::op_func::div(*this, x);
 	}
 
-	spvar& spvar::operator/(const double& d) {
+	spvar& spvar::operator/(const float& d) {
 		return md::op_func::div(*this, d);
 	}
 
-	spvar& operator/(const double& x0, const spvar& x1) {
+	spvar& operator/(const float& x0, const spvar& x1) {
 		return md::op_func::div(x0, x1);
 	}
 
@@ -95,7 +95,7 @@ namespace md {
 		return md::inner_util_func::vget_item(*this, slices);
 	}
 
-	spvar& spvar::clip(double x_min, double x_max) {
+	spvar& spvar::clip(const float x_min, const float x_max) {
 		return md::inner_util_func::vclip(*this, x_min, x_max);
 	}
 
@@ -105,11 +105,11 @@ namespace md {
 	}
 
 	////create function
-	spvar spvar::create(const double& in) {
+	spvar spvar::create(const float& in) {
 		return spvar(new Variable(in));
 	}
 
-	spvar spvar::create(const xarr_d& in) {
+	spvar spvar::create(const xarr_f& in) {
 		return spvar(new Variable(in));
 	}
 

@@ -3,9 +3,10 @@
 #include "variable.hpp"
 
 namespace md {
-	void Function::push_ref(double d) {
-		auto v = spvar::create(d);
-		inputs.push_back(v);
+	void Function::push_ref(float f) {
+		//auto v = spvar::create(d);
+		//inputs.push_back(v);
+		inputs.push_back(spvar::create(f));
 	}
 
 	void Function::push_ref(spvar& v) {
@@ -17,8 +18,9 @@ namespace md {
 	}
 
 	void Function::compute_outputs() {
-		outputs = forward(inputs);
-		
+		//outputs = forward(inputs);
+		forward(inputs);
+
 		if (Common::enable_backprop) {
 			generation = 0;
 			for (auto obj : inputs) {

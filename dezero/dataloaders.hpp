@@ -11,7 +11,7 @@ namespace md{
 		DataLoader(const Dataset& _dataset, const int _batch_size, bool _shuffle = true, bool _use_gpu = false)
 			:dataset(_dataset), batch_size(_batch_size), shuffle(_shuffle), use_gpu(_use_gpu) {
 			data_size = dataset.get_len();
-			max_iter = std::ceil(static_cast<double>(data_size) / batch_size);
+			max_iter = std::ceil(static_cast<float>(data_size) / static_cast<float>(batch_size));
 			iteration = 0;
 			reset();
 		}

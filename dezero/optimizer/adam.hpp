@@ -10,10 +10,10 @@ namespace md {
 	class Adam : public Optimizer {
 	public:
 		Adam(
-			double _alpha = 0.001, 
-			double _beta1 = 0.9, 
-			double _beta2 = 0.999, 
-			double _eps = 1e-08) 
+			const float _alpha = 0.001f, 
+			const float _beta1 = 0.9f,
+			const float _beta2 = 0.999f,
+			const float _eps = 1e-08f)
 			: t(0.0), alpha(_alpha), beta1(_beta1), beta2(_beta2), eps(_eps) {
 		
 		}
@@ -22,16 +22,16 @@ namespace md {
 		void update_one(const parameter& param);
 
 	protected:
-		double get_lr();
+		float get_lr();
 
 	protected:
-		double t;
-		double alpha;
-		double beta1;
-		double beta2;
-		double eps;
-		unordered_map<ull, xarr_d> ms;
-		unordered_map<ull, xarr_d> vs;
+		float t;
+		float alpha;
+		float beta1;
+		float beta2;
+		float eps;
+		unordered_map<ull, xarr_f> ms;
+		unordered_map<ull, xarr_f> vs;
 	};
 }
 #endif

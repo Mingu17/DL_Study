@@ -28,9 +28,11 @@ namespace md {
 	typedef xt::xarray<int> xarr_i;
 	typedef xt::xarray<unsigned char> xarr_uc;
 	typedef xt::xarray<char> xarr_c;
+	typedef xt::xarray<size_t> xarr_st;
 	typedef xt::svector<size_t> xarr_size;
 	typedef vector<spvar> vec_spvar;
 	typedef vector<xarr_d> vec_xarr_d;
+	typedef vector<xarr_f> vec_xarr_f;
 	typedef spvar parameter;
 	typedef unsigned long long ull;
 	typedef xt::xdynamic_slice_vector vec_xslice;
@@ -40,19 +42,19 @@ namespace md {
 
 	class Common {
 	public:
-		static bool xarr_isinit(const xarr_d& arr) {
-			if (arr.size() == 1 && arr[0] == DBL_MAX) {
-				return false;
-			}
-			return true;
-		}
+		//static bool xarr_isinit(const xarr_d& arr) {
+		//	if (arr.size() == 1 && arr[0] == DBL_MAX) {
+		//		return false;
+		//	}
+		//	return true;
+		//}
 
-		static bool isNone(const xarr_d& arr) {
-			if (arr.size() == 1 && arr[0] == DBL_MAX) {
-				return true;
-			}
-			return false;
-		}
+		//static bool isNone(const xarr_d& arr) {
+		//	if (arr.size() == 1 && arr[0] == DBL_MAX) {
+		//		return true;
+		//	}
+		//	return false;
+		//}
 
 		//static void xarr_init(xarr_d& arr) {
 		//	arr = xarr_d({ DBL_MAX });

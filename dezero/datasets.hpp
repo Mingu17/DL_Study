@@ -27,10 +27,10 @@ namespace md {
 			else return 0;
 		}
 
-		pair<xarr_d, double> operator[](const int index) const {
+		pair<xarr_f, float> operator[](const size_t index) const {
 			size_t t_size = train_data.size();
 			if (t_size > 0 && index < t_size) {
-				double label = train_label(index);
+				float label = train_label(index);
 				return std::make_pair(xt::view(train_data, index), label);
 			}
 			else {
@@ -38,7 +38,7 @@ namespace md {
 			}
 		}
 
-		pair<xarr_d, int> operator()(const int index) const {
+		pair<xarr_f, int> operator()(const size_t index) const {
 			size_t t_size = train_data.size();
 			if (t_size > 0 && index < t_size) {
 				int label = static_cast<int>(train_label(index));
@@ -49,7 +49,7 @@ namespace md {
 			}
 		}
 
-		xarr_d get_train_data(const xarr_i& batch_index) const {
+		xarr_f get_train_data(const xarr_i& batch_index) const {
 			if (train_data.size() > 0) {
 				return xt::view(train_data, xt::keep(batch_index));
 			}
@@ -58,7 +58,7 @@ namespace md {
 			}
 		}
 
-		xarr_d get_train_label(const xarr_i& batch_index) const {
+		xarr_f get_train_label(const xarr_i& batch_index) const {
 			if (train_label.size() > 0) {
 				return xt::view(train_label, xt::keep(batch_index));
 			}
@@ -70,10 +70,10 @@ namespace md {
 		virtual void prepare() = 0;
 
 	protected:
-		void transform_data(const xarr_d& in_data, const xarr_d& in_label) {
+		void transform_data(const xarr_f& in_data, const xarr_f& in_label) {
 			if (transforms.size() > 0) {
-				xarr_d t_data = transforms[0]->compute(in_data);
-				for (int i = 1; i < transforms.size(); ++i) {
+				xarr_f t_data = transforms[0]->compute(in_data);
+				for (size_t i = 1; i < transforms.size(); ++i) {
 					t_data = transforms[i]->compute(t_data);
 				}
 				train_data = t_data;
@@ -83,8 +83,8 @@ namespace md {
 			}
 
 			if (target_transforms.size() > 0) {
-				xarr_d t_label = target_transforms[0]->compute(in_label);
-				for (int i = 1; i < target_transforms.size(); ++i) {
+				xarr_f t_label = target_transforms[0]->compute(in_label);
+				for (size_t i = 1; i < target_transforms.size(); ++i) {
 					t_label = target_transforms[i]->compute(t_label);
 				}
 				train_label = t_label;
@@ -97,8 +97,8 @@ namespace md {
 		bool train;
 		vector<SP<Transforms>> transforms;
 		vector<SP<Transforms>> target_transforms;
-		xarr_d train_data;
-		xarr_d train_label;
+		xarr_f train_data;
+		xarr_f train_label;
 	};
 }
 

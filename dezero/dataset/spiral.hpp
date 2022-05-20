@@ -15,7 +15,7 @@ namespace md {
 		}
 
 		void prepare() {
-			xarr_d t_data, t_label;
+			xarr_f t_data, t_label;
 			Utils::get_spiral(t_data, t_label);
 			transform_data(t_data, t_label);
 		}

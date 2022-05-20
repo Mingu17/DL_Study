@@ -3,23 +3,23 @@
 #include "variable.hpp"
 
 namespace md {
-	xarr_d Utils::sum_to(const xarr_d& x, const xarr_size& shape) {
-		int ndim = static_cast<int>(shape.size());
-		int lead = static_cast<int>(x.dimension()) - ndim;
-		int i = 0;
+	xarr_f Utils::sum_to(const xarr_f& x, const xarr_size& shape) {
+		size_t ndim = shape.size();
+		size_t lead = x.dimension() - ndim;
+		size_t i = 0;
 		xarr_size lead_axis;
 
-		for (int i = 0; i < lead; ++i) {
+		for (i = 0; i < lead; ++i) {
 			lead_axis.push_back(i);
 		}
 
-		for (int i = 0; i < shape.size(); ++i) {
+		for (i = 0; i < shape.size(); ++i) {
 			if (shape[i] == 1) {
-				lead_axis.push_back(static_cast<size_t>(i) + lead);
+				lead_axis.push_back(i + lead);
 			}
 		}
 
-		xarr_d y = xt::sum(x, lead_axis);
+		xarr_f y = xt::sum(x, lead_axis);
 
 		if (lead > 0) {
 			y = xt::squeeze(y);
@@ -28,7 +28,7 @@ namespace md {
 	}
 
 	spvar& Utils::reshape_sum_backward(spvar& gy, const xarr_size& x_shape, const xarr_size& axis, bool keepdims) {
-		int ndim = static_cast<int>(x_shape.size());
+		size_t ndim = x_shape.size();
 		xarr_size tupled_axis = axis;
 		if (axis.empty()) {
 			tupled_axis.clear();
@@ -38,7 +38,7 @@ namespace md {
 
 		if (!(ndim == 0 || tupled_axis.empty() || keepdims)) {
 			xarr_size actual_axis;
-			for (int i = 0; i < tupled_axis.size(); ++i) {
+			for (size_t i = 0; i < tupled_axis.size(); ++i) {
 				if (tupled_axis[i] >= 0) {
 					actual_axis.push_back(tupled_axis[i]);
 				}
@@ -49,7 +49,7 @@ namespace md {
 			auto sorted = xt::sort(xt::adapt(actual_axis));
 			shape = gy->get_shape();
 
-			for (int i = 0; i < sorted.size(); ++i) {
+			for (size_t i = 0; i < sorted.size(); ++i) {
 				xarr_size::iterator iter = shape.begin();
 				shape.insert(iter + sorted(i), 1);
 			}
@@ -61,21 +61,21 @@ namespace md {
 		return gy.reshape(shape);
 	}
 
-	xarr_d Utils::logsumexp(const xarr_d& x, size_t axis) {
+	xarr_f Utils::logsumexp(const xarr_f& x, size_t axis) {
 		return logsumexp(x, xarr_size({ axis }));
 	}
 
-	xarr_d Utils::logsumexp(const xarr_d& x, const xarr_size& axis) {
-		xarr_d m = xt::amax(x, axis, xt::keep_dims);
-		xarr_d y = x - m;
-		xarr_d y_exp = xt::exp(y);
-		xarr_d s = xt::sum(y_exp, axis, xt::keep_dims);
-		xarr_d s_log = xt::log(s);
+	xarr_f Utils::logsumexp(const xarr_f& x, const xarr_size& axis) {
+		xarr_f m = xt::amax(x, axis, xt::keep_dims);
+		xarr_f y = x - m;
+		xarr_f y_exp = xt::exp(y);
+		xarr_f s = xt::sum(y_exp, axis, xt::keep_dims);
+		xarr_f s_log = xt::log(s);
 		m += s_log;
 		return m;
 	}
 
-	void Utils::get_spiral(vec_xarr_d& out_data, bool train) {
+	void Utils::get_spiral(vec_xarr_f& out_data, bool train) {
 		int seed = train ? 1984 : 2020;
 		xt::random::seed(seed);
 
@@ -83,17 +83,17 @@ namespace md {
 		int num_class = 3;
 		int input_dim = 2;
 		int data_size = num_class * num_data;
-		xarr_d x_t = xt::zeros<double>({ data_size, input_dim });
-		xarr_d x = xt::zeros<double>({ data_size, input_dim });
+		xarr_f x_t = xt::zeros<double>({ data_size, input_dim });
+		xarr_f x = xt::zeros<double>({ data_size, input_dim });
 		xt::xarray<int> t_t = xt::zeros<int>({ data_size });
 		xt::xarray<int> t = xt::zeros<int>({ data_size });
 
 		for (int j = 0; j < num_class; ++j) {
 			for (int i = 0; i < num_data; ++i) {
-				double rate = static_cast<double>(i) / num_data;
-				double radius = 1.0 * rate;
-				xarr_d r_t = xt::random::randn<double>({ 1, 1 });
-				double theta = 4.0 * j + rate * 4.0 + r_t(0) * 0.2;
+				float rate = static_cast<float>(i) / num_data;
+				float radius = 1.0f * rate;
+				xarr_f r_t = randn({ 1, 1 });
+				float theta = 4.0f * j + rate * 4.0f + r_t(0) * 0.2f;
 				int ix = num_data * j + i;
 				x_t(ix, 0) = radius * std::sin(theta);
 				x_t(ix, 1) = radius * std::cos(theta);
@@ -113,7 +113,7 @@ namespace md {
 		out_data.push_back(t);
 	}
 
-	void Utils::get_spiral(xarr_d& out_data, xarr_d& out_label, bool train) {
+	void Utils::get_spiral(xarr_f& out_data, xarr_f& out_label, bool train) {
 		int seed = train ? 1984 : 2020;
 		xt::random::seed(seed);
 
@@ -121,17 +121,17 @@ namespace md {
 		int num_class = 3;
 		int input_dim = 2;
 		int data_size = num_class * num_data;
-		xarr_d x_t = xt::zeros<double>({ data_size, input_dim });
-		out_data = xt::zeros<double>({ data_size, input_dim });
+		xarr_f x_t = zeros({ data_size, input_dim });
+		out_data = zeros({ data_size, input_dim });
 		xt::xarray<int> t_t = xt::zeros<int>({ data_size });
-		out_label = xt::zeros<double>({ data_size });
+		out_label = xt::zeros<float>({ data_size });
 
 		for (int j = 0; j < num_class; ++j) {
 			for (int i = 0; i < num_data; ++i) {
-				double rate = static_cast<double>(i) / num_data;
-				double radius = 1.0 * rate;
-				xarr_d r_t = xt::random::randn<double>({ 1, 1 });
-				double theta = 4.0 * j + rate * 4.0 + r_t(0) * 0.2;
+				float rate = static_cast<float>(i) / num_data;
+				float radius = 1.0f * rate;
+				xarr_f r_t = randn({ 1, 1 });
+				float theta = 4.0f * j + rate * 4.0f + r_t(0) * 0.2f;
 				int ix = num_data * j + i;
 				x_t(ix, 0) = radius * std::sin(theta);
 				x_t(ix, 1) = radius * std::cos(theta);
@@ -144,7 +144,7 @@ namespace md {
 			int idx = indices(i);
 			out_data(i, 0) = x_t(idx, 0);
 			out_data(i, 1) = x_t(idx, 1);
-			out_label(i) = t_t(idx);
+			out_label(i) = static_cast<float>(t_t(idx));
 		}
 	}
 }

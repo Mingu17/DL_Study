@@ -71,7 +71,7 @@ namespace md {
 	class math {
 	public:
 		template<typename T0>
-		static inline spvar& pow(T0& x, const double c) {
+		static inline spvar& pow(T0& x, const float c) {
 			op_stack.push(std::make_shared<Pow>(c));
 			return op_stack.top()->call(x)[0];
 		}
@@ -113,7 +113,7 @@ namespace md {
 			return op_stack.top()->call(x)[0];
 		}
 
-		static inline spvar& vclip(const spvar& x, const double x_min, const double x_max) {
+		static inline spvar& vclip(const spvar& x, const float x_min, const float x_max) {
 			op_stack.push(std::make_shared<Clip>(x_min, x_max));
 			return op_stack.top()->call(x)[0];
 		}

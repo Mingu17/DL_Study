@@ -9,7 +9,7 @@ using std::unordered_map;
 namespace md {
 	class AdaDelta : public Optimizer {
 	public:
-		AdaDelta(double _rho = 0.95, double _eps = 1e-06)
+		AdaDelta(const float _rho = 0.95f, const float _eps = 1e-06f)
 			:rho(_rho), eps(_eps) {
 
 		}
@@ -17,10 +17,10 @@ namespace md {
 		void update_one(const parameter& param);
 
 	protected:
-		double rho;
-		double eps;
-		unordered_map<ull, xarr_d> msg;
-		unordered_map<ull, xarr_d> msdx;
+		float rho;
+		float eps;
+		unordered_map<ull, xarr_f> msg;
+		unordered_map<ull, xarr_f> msdx;
 	};
 }
 #endif

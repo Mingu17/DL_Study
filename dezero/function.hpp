@@ -34,8 +34,16 @@ namespace md {
 			return outputs;
 		}
 
-		virtual vec_spvar forward(const vec_spvar& xs) = 0;
-		virtual vec_spvar backward(const vec_spvar& gys) = 0;
+		//virtual vec_spvar forward(const vec_spvar& xs) = 0;
+		//virtual vec_spvar backward(const vec_spvar& gys) = 0;
+		virtual void forward(const vec_spvar& xs) = 0;
+		virtual void backward(const vec_spvar& gys) = 0;
+
+		void param_reserve(size_t in, size_t out, size_t g) {
+			inputs.reserve(in);
+			outputs.resize(out);
+			grads.reserve(g);
+		}
 
 		Function& operator()(Function& func) {
 			prev_func = &func;
@@ -50,12 +58,16 @@ namespace md {
 			return outputs;
 		}
 
+		vec_spvar& get_grads() {
+			return grads;
+		}
+
 		int get_generation() {
 			return generation;
 		}
 
 	protected:	
-		void push_ref(double d);
+		void push_ref(float f);
 		void push_ref(spvar& v);
 		void push_ref(const spvar& v);
 		void push_ref(void) { return; }
@@ -71,6 +83,7 @@ namespace md {
 		Function* prev_func;
 		vec_spvar inputs;
 		vec_spvar outputs;
+		vec_spvar grads;
 		int generation;
 	};
 }

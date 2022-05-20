@@ -6,12 +6,15 @@
 namespace md {
 	class Pow : public Function {
 	public:
-		Pow(double _c);
-		vec_spvar forward(const vec_spvar& xs);
-		vec_spvar backward(const vec_spvar& gys);
-
+		Pow(const float _c) : c(_c) {
+			param_reserve(1, 1, 1);
+		}
+		//vec_spvar forward(const vec_spvar& xs);
+		//vec_spvar backward(const vec_spvar& gys);
+		void forward(const vec_spvar& xs);
+		void backward(const vec_spvar& gys);
 	protected:
-		double c;
+		float c;
 	};
 }
 #endif
