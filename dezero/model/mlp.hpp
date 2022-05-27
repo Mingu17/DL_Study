@@ -43,7 +43,7 @@ namespace md {
 				outputs = layers[0]->call(xs[0]);
 			}
 			else {
-				throw LocalException("(MLP::forward) - layer count is zero");
+				THROW_EXCEPTION("layer count is zero");
 			}
 		}
 	protected:

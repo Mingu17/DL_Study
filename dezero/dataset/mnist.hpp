@@ -37,10 +37,10 @@ namespace md {
 				label = label_path;
 			}
 			else if (!data_path.empty() && label_path.empty()) {
-				throw LocalException("(MNIST::prepare) - label path is empty.");
+				THROW_EXCEPTION("label path is empty.");
 			}
 			else if (data_path.empty() && !label_path.empty()) {
-				throw LocalException("(MNIST::prepare) - data path is empty.");
+				THROW_EXCEPTION("data path is empty.");
 			}
 
 			xarr_f out_data, out_label;

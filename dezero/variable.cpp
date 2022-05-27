@@ -74,7 +74,7 @@ namespace md {
 
 	void Variable::add_grad(const spvar& _grad) {
 		if (grad.get()->get_size() != _grad.get()->get_size()) {
-			throw LocalException("(Variable::add_grad) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		grad = grad + _grad;
 	}

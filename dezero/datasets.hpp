@@ -34,7 +34,7 @@ namespace md {
 				return std::make_pair(xt::view(train_data, index), label);
 			}
 			else {
-				throw LocalException("(Dataset::operator[]) - index is out of range");
+				THROW_EXCEPTION("index is out of range");
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace md {
 				return std::make_pair(xt::view(train_data, index), label);
 			}
 			else {
-				throw LocalException("(Dataset::operator()) - index is out of range");
+				THROW_EXCEPTION("index is out of range");
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace md {
 				return xt::view(train_data, xt::keep(batch_index));
 			}
 			else {
-				throw LocalException("(Dataset::get_train_data) - train data is not exist");
+				THROW_EXCEPTION("train data is not exist");
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace md {
 				return xt::view(train_label, xt::keep(batch_index));
 			}
 			else {
-				throw LocalException("(Dataset::get_train_label) - train label is not exist");
+				THROW_EXCEPTION("train label is not exist");
 			}
 		}
 

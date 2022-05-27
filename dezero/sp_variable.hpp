@@ -91,7 +91,7 @@ namespace md {
 
 		void reset(Variable* p) {
 			if (p == nullptr || ptr != p) {
-				throw LocalException("(spvar::reset) - Source pointer (Variable) is not correct");
+				THROW_EXCEPTION("Source pointer (Variable) is not correct");
 			}
 			else {
 				release();
@@ -119,7 +119,7 @@ namespace md {
 
 		Variable& operator*() const {
 			if (ptr == nullptr) {
-				throw LocalException("(spvar::operator*) - Pointer is null");
+				THROW_EXCEPTION("Pointer is null");
 			}
 			else {
 				return *ptr;
@@ -128,7 +128,7 @@ namespace md {
 
 		Variable* operator->() const {
 			if (ptr == nullptr) {
-				throw LocalException("(spvar::operator->) - Pointer is null");
+				THROW_EXCEPTION(" Pointer is null");
 			}
 			else {
 				return ptr;

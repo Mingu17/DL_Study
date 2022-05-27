@@ -170,7 +170,7 @@ namespace md {
 			start_cnt = static_cast<int>(op_stack.size());
 		}
 		else {
-			throw LocalException("(start_op) - not initialize state");
+			THROW_EXCEPTION("not initialize state");
 		}
 	}
 

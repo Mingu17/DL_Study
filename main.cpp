@@ -16,7 +16,6 @@ bool Common::enable_backprop = true;
 int main(int argc, char** argv) {
 	try {
 		start_op();
-
 		xt::random::seed(0);
 
 		int max_epoch = 5;

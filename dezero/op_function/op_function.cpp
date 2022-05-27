@@ -11,7 +11,7 @@ namespace md {
 	/*vec_spvar*/
 	void Add::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(Add::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x0 = xs[0]->get_data();
@@ -32,7 +32,7 @@ namespace md {
 	/*vec_spvar*/
 	void Add::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Add::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -69,7 +69,7 @@ namespace md {
 	/*vec_spvar*/
 	void BroadcastTo::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(BroadcastTo::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -88,7 +88,7 @@ namespace md {
 	/*vec_spvar*/
 	void BroadcastTo::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(BroadcastTo::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -107,7 +107,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Cos::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Cos::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -124,7 +124,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Cos::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Cos::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -143,7 +143,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Div::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(Div::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x0 = xs[0]->get_data();
@@ -162,7 +162,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Div::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Div::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -185,7 +185,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Exp::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Exp::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -203,7 +203,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Exp::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Exp::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -222,7 +222,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Linear::forward(const vec_spvar& xs) {
 		if (!(xs.size() == 2 || xs.size() == 3)) {
-			throw LocalException("(Linear::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -249,7 +249,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Linear::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Linear::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -284,7 +284,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void MatMul::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(MatMul::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -304,7 +304,7 @@ namespace md {
 	/*vec_spvar*/
 	void MatMul::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(MatMul::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -329,7 +329,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void MeanSquaredError::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(MeanSquaredError::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x0 = xs[0]->get_data();
@@ -349,7 +349,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void MeanSquaredError::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(MeanSquaredError::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -373,7 +373,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Mul::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(Mul::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x0 = xs[0]->get_data();
@@ -392,7 +392,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Mul::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Mul::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -413,7 +413,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Neg::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Neg::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -430,7 +430,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Neg::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Neg::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -457,7 +457,7 @@ namespace md {
 	void Pow::forward(const vec_spvar& xs) {
 		//std::cout << "c : " << c << std::endl;
 		if (xs.size() != 1) {
-			throw LocalException("(Pow::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -474,7 +474,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Pow::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Pow::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -502,7 +502,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Reshape::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Reshape::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -521,7 +521,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Reshape::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Reshape::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -540,7 +540,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sigmoid::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Sigmoid::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -558,7 +558,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sigmoid::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Sigmoid::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -577,7 +577,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sin::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Sin::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -594,7 +594,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sin::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Sin::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -613,7 +613,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sub::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(Sub::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x0 = xs[0]->get_data();
@@ -632,7 +632,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sub::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Sub::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -661,7 +661,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sum::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Sum::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -686,7 +686,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Sum::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Sum::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -716,7 +716,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void SumTo::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(SumTo::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -735,7 +735,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void SumTo::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(SumTo::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -753,7 +753,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Tanh::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Tanh::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -770,7 +770,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Tanh::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Tanh::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -789,7 +789,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Transpose::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Transpose::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -806,7 +806,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Transpose::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Transpose::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -824,7 +824,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void ReLU::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(ReLU::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -841,7 +841,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void ReLU::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(ReLU::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -861,7 +861,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Softmax::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Softmax::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -883,7 +883,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Softmax::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Softmax::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -905,7 +905,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void GetItem::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(GetItem::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -922,7 +922,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void GetItem::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(GetItem::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& x = inputs[0];
@@ -942,7 +942,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void GetItemGrad::forward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(GetItemGrad::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& gy = gys[0]->get_data();
@@ -962,7 +962,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void GetItemGrad::backward(const vec_spvar& ggxs) {
 		if (ggxs.size() != 1) {
-			throw LocalException("(GetItemGrad::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& ggx = ggxs[0]->get_grad();
@@ -980,7 +980,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void SoftmaxCrossEntropy::forward(const vec_spvar& xs) {
 		if (xs.size() != 2) {
-			throw LocalException("(SoftmaxCrossEntropy::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -1011,7 +1011,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void SoftmaxCrossEntropy::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(SoftmaxCrossEntropy::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
@@ -1038,7 +1038,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Clip::forward(const vec_spvar& xs) {
 		if (xs.size() != 1) {
-			throw LocalException("(Clip::forward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			xarr_f& x = xs[0]->get_data();
@@ -1056,7 +1056,7 @@ namespace md {
 	/*vec_spvar*/ 
 	void Clip::backward(const vec_spvar& gys) {
 		if (gys.size() != 1) {
-			throw LocalException("(Clip::backward) - Size mismatch");
+			THROW_EXCEPTION("Size mismatch");
 		}
 		else {
 			spvar& gy = gys[0]->get_grad();
