@@ -57,7 +57,6 @@ namespace md {
 		else {
 			shape = gy->get_shape();
 		}
-		//return reshape(gy, shape);
 		return gy.reshape(shape);
 	}
 

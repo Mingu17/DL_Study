@@ -6,7 +6,6 @@
 
 namespace md {
 	std::stack<std::shared_ptr<Function>> op_stack;
-	//int op_cnt = 0;
 	int start_cnt = -1;
 	int var_id = 1982;
 

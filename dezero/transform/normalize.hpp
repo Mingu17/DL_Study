@@ -6,13 +6,13 @@
 namespace md {
 	class Normalize : public Transforms {
 	public:
-		Normalize(const float _mean = 0.0, const float _std = 1.0)
+		Normalize(const float _mean = 0.0f, const float _std = 1.0f)
 			: isscalar_mean(true), isscalar_std(true) {
 			init(xarr_f({ _mean }), xarr_f({ _std }));
 		}
 
-		Normalize(const xarr_f& _mean = xarr_f({ 0.0 }),
-			const xarr_f& _std = xarr_f({ 1.0 })) 
+		Normalize(const xarr_f& _mean = xarr_f({ 0.0f }),
+			const xarr_f& _std = xarr_f({ 1.0f })) 
 			: isscalar_mean(false), isscalar_std(false) {
 			init(_mean, _std);
 		}

@@ -13,7 +13,7 @@ namespace md {
 	class Model : public Layer {
 	public:
 		Model() {}
-		virtual std::set<std::pair<parameter, std::string>>& get_params();
+		virtual vec_spvar& get_params();
 
 		template<typename... Vs>
 		vec_spvar& operator()(Vs&... args) {

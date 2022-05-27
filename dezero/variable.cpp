@@ -29,7 +29,7 @@ namespace md {
 		};
 
 		add_func(creator);
-
+		
 		while (!funcs.empty()) {
 			Function* func = funcs.top();
 			vec_spvar& gys = func->get_outputs();

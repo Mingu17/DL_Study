@@ -24,17 +24,16 @@ namespace md {
 		vec_spvar& call(Vs&... args) {
 			inputs.clear();
 			push_ref(args...);
-			outputs = forward(inputs);
+			forward(inputs);
 			return outputs;
 		}
 
-		set<pair<parameter, string>>& get_params() {
+		virtual vec_spvar& get_params() {
 			return params;
 		}
 
-		void param_add(const parameter& param, string name = "");
 		void clear_grad();
-		virtual vec_spvar forward(vec_spvar& xs) = 0;
+		virtual void forward(vec_spvar& xs) = 0;
 
 	protected:
 		void push_ref(float f);
@@ -48,7 +47,8 @@ namespace md {
 			push_ref(vars...);
 		}
 	protected:
-		set<pair<parameter, string>> params;
+		//set<pair<parameter, string>> params;
+		vec_spvar params;
 		string init_name;
 
 		vec_spvar inputs;

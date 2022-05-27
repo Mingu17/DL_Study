@@ -6,8 +6,6 @@
 #include <string>
 
 namespace md {
-	//typedef xarr_d(*rand_t)(xarr_size&& s);
-
 	class Utils {
 	public:
 		static xarr_f sum_to(const xarr_f& x, const xarr_size& shape);

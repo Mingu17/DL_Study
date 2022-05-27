@@ -311,8 +311,8 @@ namespace md {
 			spvar& x = inputs[0];
 			spvar& W = inputs[1];
 
-			spvar gx = gy.dot(W.T());
-			spvar gW = x.T().dot(gy);
+			spvar& gx = gy.dot(W.T());
+			spvar& gW = x.T().dot(gy);
 
 			//return vec_spvar({ gx, gW });
 			grads.clear();
@@ -481,7 +481,7 @@ namespace md {
 			spvar& x = inputs[0];
 			//return vec_spvar({ c * math::pow(x, c - 1) * gy });
 			grads.clear();
-			grads.push_back(c * math::pow(x, c - 1) * gy);
+			grads.push_back(c * math::pow(x, c - 1.0f) * gy);
 		}
 	}
 
@@ -546,7 +546,7 @@ namespace md {
 			xarr_f& x = xs[0]->get_data();
 			//xarr_f res = xt::tanh(x * 0.5) * 0.5 + 0.5;
 			//return vec_spvar({ spvar::create(res) });
-			outputs[0] = spvar::create(xt::tanh(x * 0.5) * 0.5 + 0.5);
+			outputs[0] = spvar::create(xt::tanh(x * 0.5f) * 0.5f + 0.5f);
 		}
 	}
 
@@ -565,7 +565,7 @@ namespace md {
 			spvar& y = outputs[0];
 			//return vec_spvar({ gy * y * (1.0 - y) });
 			grads.clear();
-			grads.push_back(gy * y * (1.0 - y));
+			grads.push_back(gy * y * (1.0f - y));
 		}
 	}
 
@@ -777,7 +777,7 @@ namespace md {
 			spvar& y = outputs[0];
 			//return vec_spvar({ gy * (1.0 - y * y) }); // vpow(y, 2) ?
 			grads.clear();
-			grads.push_back(gy * (1.0 - y * y));
+			grads.push_back(gy * (1.0f - y * y));
 		}
 	}
 
@@ -829,7 +829,7 @@ namespace md {
 		else {
 			xarr_f& x = xs[0]->get_data();
 			//return vec_spvar({ spvar::create(xt::maximum(x, 0.0)) });
-			outputs[0] = spvar::create(xt::maximum(x, 0.0));
+			outputs[0] = spvar::create(xt::maximum(x, 0.0f));
 		}
 	}
 
@@ -946,7 +946,7 @@ namespace md {
 		}
 		else {
 			xarr_f& gy = gys[0]->get_data();
-			xarr_f gx = xt::zeros<double>(in_shape);
+			xarr_f gx = xt::zeros<float>(in_shape);
 			xarr_f gx_t = xt::dynamic_view(gx, slices);
 			gx_t += gy;
 			//return vec_spvar({ spvar::create(gx_t) });
@@ -996,9 +996,10 @@ namespace md {
 				indices.push_back({ range(i), ravel(i) });
 			}
 			xarr_f log_p_v = xt::index_view(log_p, indices);
+			float rev_N = 1.0f / static_cast<float>(N);
 			//xarr_f res = -xt::sum(log_p_v) / static_cast<float>(N);
 			//return vec_spvar({ spvar::create(res) });
-			outputs[0] = spvar::create(-xt::sum(log_p_v) / static_cast<float>(N));
+			outputs[0] = spvar::create(-xt::sum(log_p_v) * rev_N);
 		}
 	}
 

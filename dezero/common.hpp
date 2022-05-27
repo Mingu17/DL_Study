@@ -42,24 +42,6 @@ namespace md {
 
 	class Common {
 	public:
-		//static bool xarr_isinit(const xarr_d& arr) {
-		//	if (arr.size() == 1 && arr[0] == DBL_MAX) {
-		//		return false;
-		//	}
-		//	return true;
-		//}
-
-		//static bool isNone(const xarr_d& arr) {
-		//	if (arr.size() == 1 && arr[0] == DBL_MAX) {
-		//		return true;
-		//	}
-		//	return false;
-		//}
-
-		//static void xarr_init(xarr_d& arr) {
-		//	arr = xarr_d({ DBL_MAX });
-		//}
-
 		template<typename ... Args>
 		static std::string string_format(const std::string& format, Args ... args)
 		{

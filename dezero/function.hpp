@@ -34,8 +34,6 @@ namespace md {
 			return outputs;
 		}
 
-		//virtual vec_spvar forward(const vec_spvar& xs) = 0;
-		//virtual vec_spvar backward(const vec_spvar& gys) = 0;
 		virtual void forward(const vec_spvar& xs) = 0;
 		virtual void backward(const vec_spvar& gys) = 0;
 

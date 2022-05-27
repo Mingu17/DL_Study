@@ -21,19 +21,17 @@ namespace md {
 			else {
 				b = parameter::create(Utils::zeros({ out_size }));
 				b->set_name("b");
-				params.insert(std::make_pair(b, "b"));
+				params.push_back(b);
 			}
 		}
 
-		vec_spvar forward(vec_spvar& xs) {
-			//const spvar& x = xs[0];
+		void forward(vec_spvar& xs) {
 			spvar& x = xs[0];
 			if (W == nullptr) {
 				in_size = static_cast<int>(x->get_shape()[1]);
 				_init_W();
 			}
-			//return vec_spvar({ x.linear(W, b) });
-			return vec_spvar({ util_func::linear(x, W, b) });
+			outputs = vec_spvar({ util_func::linear(x, W, b) });
 		}
 
 	protected:
@@ -41,7 +39,7 @@ namespace md {
 			xarr_f w_data = Utils::randn({ in_size, out_size }) * std::sqrt(1.0f / in_size);
 			W = parameter::create(w_data);
 			W->set_name("W");
-			params.insert(std::make_pair(W, "W"));
+			params.push_back(W);
 		}
 
 	protected:

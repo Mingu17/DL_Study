@@ -4,8 +4,6 @@
 
 namespace md {
 	void Function::push_ref(float f) {
-		//auto v = spvar::create(d);
-		//inputs.push_back(v);
 		inputs.push_back(spvar::create(f));
 	}
 
@@ -18,7 +16,6 @@ namespace md {
 	}
 
 	void Function::compute_outputs() {
-		//outputs = forward(inputs);
 		forward(inputs);
 
 		if (Common::enable_backprop) {

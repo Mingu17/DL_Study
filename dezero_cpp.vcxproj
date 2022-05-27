@@ -105,6 +105,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\md_lib\x64\xtl\include;D:\md_lib\x64\xsimd\include;D:\md_lib\x64\xtensor\include;D:\md_lib\x64\OpenBLAS-0.3.20-x64\include;D:\md_lib\x64\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,6 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\md_lib\x64\xtl\include;D:\md_lib\x64\xsimd\include;D:\md_lib\x64\xtensor\include;D:\md_lib\x64\OpenBLAS-0.3.20-x64\include;D:\md_lib\x64\xtensor-blas\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

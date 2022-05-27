@@ -70,8 +70,7 @@ namespace md {
 
 	class math {
 	public:
-		template<typename T0>
-		static inline spvar& pow(T0& x, const float c) {
+		static inline spvar& pow(const spvar& x, const float c) {
 			op_stack.push(std::make_shared<Pow>(c));
 			return op_stack.top()->call(x)[0];
 		}
@@ -162,8 +161,7 @@ namespace md {
 		}
 
 		static inline spvar& softmax_cross_entropy(const spvar& x, const spvar& t) {
-			op_stack.push(std::make_shared<SoftmaxCrossEntropy>());
-			return op_stack.top()->call(x, t)[0];
+			return compute<SoftmaxCrossEntropy>(x, t);
 		}
 	};
 
@@ -184,7 +182,6 @@ namespace md {
 		if (isDebug) {
 			std::cout << "clear " << op << " variables." << std::endl;
 		}
-		//start_cnt = -1;
 	}
 }
 #endif

@@ -10,11 +10,6 @@
 
 namespace md {
 	class Function;
-	//class Variable;
-
-	//typedef std::shared_ptr<Variable> spvar;
-	//typedef vector<spvar> vec_spvar;
-
 	class Variable {
 	public:
 		Variable(std::string _name = "") :

@@ -68,8 +68,8 @@ namespace md {
 		xarr_f& v = vs[id];
 		xarr_f& grad = param->get_grad()->get_data();
 
-		m += (1.0 - beta1) * (grad - m);
-		v += (1.0 - beta2) * (grad * grad - v);
+		m += (1.0f - beta1) * (grad - m);
+		v += (1.0f - beta2) * (grad * grad - v);
 		param->get_data() -= get_lr() * m / (xt::sqrt(v) + eps);
 	}
 

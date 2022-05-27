@@ -6,9 +6,9 @@
 
 namespace md {
 	void Optimizer::update() {
-		std::set<std::pair<parameter, std::string>>& params = target->get_params();
+		vec_spvar& params = target->get_params();
 		for (auto iter = params.begin(); iter != params.end(); iter++) {
-			update_one(iter->first);
+			update_one(*iter);
 		}
 	}
 }
